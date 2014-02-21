@@ -5,7 +5,23 @@ var Doctor        = require('../app/models/doctor_profile');
 
 module.exports = function(app, passport) {
 
+
 // normal routes ===============================================================
+
+    //view post
+    app.get('/post', function(req, res) {
+        res.render('post.ejs', {
+
+        });
+    });
+
+    // construct forum
+    app.get('/forum', function(req, res) {
+        res.render('forum.ejs', {
+
+        });
+    });
+
 
     // patient submit request
     app.post('/app_request', isLoggedIn, function(req, res) {
