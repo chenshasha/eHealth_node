@@ -1,7 +1,7 @@
 <%- include header %>
 
 
-<title>Appointment | Patient | View</title>
+<title>Appointment | Doctor | View</title>
 
 <!-- Bootstrap core CSS -->
 <link href="/stylesheets/dist/css/bootstrap.css" rel="stylesheet">
@@ -20,8 +20,8 @@
 		<div class="col-md-3">
 			<p class="lead">Appointment Services</p>
 			<div class="list-group">
-				<a href="/app" class="list-group-item">Appointment Request</a>
-				<a href="/viewapp" class="list-group-item active">View Status</a>
+				<a href="/app" class="list-group-item active">Appointment Request</a>
+				<a href="/viewapp" class="list-group-item">View Status</a>
 			</div>
 		</div>
 
@@ -35,10 +35,6 @@
                       <tr>
                         <th style="width: 90px;">Appointment Date: </th>
                         <td><%= item.appDate %></td>
-                      </tr>
-                      <tr>
-                        <th style="width: 90px;">Appointment Date: </th>
-                    	<td><%= item.appDate %></td>
                       </tr>
                       <tr>
                         <th style="width: 90px;">Modified Date: </th>
@@ -55,7 +51,11 @@
 
                     </tbody>
                   </table>
-                  <button class="btn btn-primary" style="float: right;">Cancel</button>
+                  <div class="btn-group" style="float: right;">
+                    <button class="btn btn-primary">Accept</button>
+                    <button class="btn btn-primary">Reject </button>
+                  </div>
+
             		</div>
                      <% }); %>
                      </div>

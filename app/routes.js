@@ -17,15 +17,24 @@ module.exports = function(app, passport) {
         request.reason          = req.param('reason');
         request.address         = req.param('address');
         request.department      = req.param('department');
+        request.appDate         = new Date(req.param('element_1_3'),req.param('element_1_1'),req.param('element_1_2'));
+        console.log(request.appDate);
         request.save();
         res.redirect('/app');
     });
 
 
-    // patient request appointment
+    // patient request appointment, doctor respond to request
     app.get('/app', function(req, res) {
         if(req.user.local.userType == "patient"){
             res.render('patient_app_request.ejs');
+        }else if(req.user.local.userType == "doctor"){
+            PendingReq.find({"doctor_id": req.user.id}, function (err, item) {
+                res.render('doc_app_request.ejs', {
+                    item: item,
+                    user: req.user
+                });
+            });
         }
 
     });
@@ -33,13 +42,21 @@ module.exports = function(app, passport) {
     // patient view appointment
     app.get('/viewapp', function(req, res) {
 
+        if(req.user.local.userType == "patient"){
             PendingReq.find({"patient_id": req.user.id}, function (err, item) {
                 res.render('patient_app_view.ejs', {
                     item: item,
                     user: req.user
                 });
             });
-
+        }else if(req.user.local.userType == "doctor"){
+            PendingReq.find({"doctor_id": req.user.id}, function (err, item) {
+                res.render('doc_app_view.ejs', {
+                    item: item,
+                    user: req.user
+                });
+            });
+        };
 
     });
 
@@ -52,6 +69,9 @@ module.exports = function(app, passport) {
 	// PROFILE SECTION =========================
 	app.get('/modifyprofile', isLoggedIn, function(req, res) {
         if(req.user.local.userType == "doctor"){
+            res.render('modify_doc_profile.ejs', {
+                user : req.user
+            });
 
         }else{
             res.render('modify_profile.ejs', {
@@ -60,6 +80,7 @@ module.exports = function(app, passport) {
         }
 	});
 
+    //create new profile when sign up or modify profile
     app.post('/profile', isLoggedIn, function(req, res) {
         if(req.user.local.userType == "patient"){
             Patient.findOne(req.user.id, function(err, user) {
@@ -131,12 +152,12 @@ module.exports = function(app, passport) {
                     doctor.address = req.param('address');
                     doctor.phone = req.param('phone');
                     doctor.email = req.param('email');
-
+                    doctor.department = req.param('department');
                     doctor.save();
                 }
                 else{
-                    Agent.update({user_id:req.user.id},{firstName: req.param('firstName'), lastName:req.param('lastName'),
-                        address:req.param('address'), phone:req.param('phone'), email : req.param('email')}).exec();
+                    Doctor.update({user_id:req.user.id},{firstName: req.param('firstName'), lastName:req.param('lastName'),
+                        address:req.param('address'), phone:req.param('phone'), department : req.param('department'), email: req.param('email')}).exec();
 
                 };
             });
@@ -148,12 +169,29 @@ module.exports = function(app, passport) {
 
     app.get('/profile', isLoggedIn, function(req, res) {
 
-        //save profile
         if(req.user.local.userType == "doctor"){
 
+            Doctor.findOne(req.user.id, function(err, doc) {
+                res.render('view_doc_profile.ejs', {
+                    user : req.user,
+                    person  : doc
+                });
+            });
+
+        }else if(req.user.local.userType == "patient"){
+            Patient.findOne(req.user.id, function(err, pat) {
+                res.render('view_general_profile.ejs', {
+                    user    : req.user,
+                    person  : pat
+                });
+            });
+
         }else{
-            res.render('view_general_profile.ejs', {
-                user : req.user
+            Agent.findOne(req.user.id, function(err, agent) {
+                res.render('view_general_profile.ejs', {
+                    user    : req.user,
+                    person  : agent
+                });
             });
         }
 

@@ -23,6 +23,7 @@ var pendingReqSchema = mongoose.Schema({
     insurance       : String,
     reason          : String,
     department      : String,
+    appDate         : Date,
     address         : String
 });
 
