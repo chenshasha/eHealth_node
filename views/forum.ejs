@@ -6,23 +6,23 @@
 <a href="/newpost"><button class = "btn btn-primary" style="float: left;">New Post </button></a>
 <div style="padding:20px">
  </div>
-<div class="panel panel-info">
-  <div class="panel-heading">
-    <a href="/post"><h3 class="panel-title">Panel title</h3> </a>
-  </div>
-  <div class="panel-body">
-    Panel content
-  </div>
-</div>
 
 
-<div class="panel panel-danger">
-  <div class="panel-heading">
-    <a href="/post"><h3 class="panel-title">Panel title</h3> </a>
-  </div>
-  <div class="panel-body">
-    Panel content
-  </div>
-</div>
+ <% posts.forEach( function ( item ){ %>
 
-</div>
+       <div class="panel panel-<%= item.postType %>">
+
+         <div class="panel-heading">
+           <a href="/viewpost/<%= item._id %>"><h3 class="panel-title"><%= item.postTitle %></h3> </a>
+         </div>
+         <div class="panel-body">
+           <%= item.content %>
+         </div>
+       </div>
+
+     <% }); %>
+
+
+
+
+

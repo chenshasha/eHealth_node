@@ -2,13 +2,27 @@ var Patient       = require('../app/models/patient_profile');
 var PendingReq    = require('../app/models/pending_req');
 var Agent         = require('../app/models/agent_profile');
 var Doctor        = require('../app/models/doctor_profile');
+var Post          = require('../app/models/post');
 
 module.exports = function(app, passport) {
 
 
 // normal routes ===============================================================
 
-    //create new post
+    //submit new post
+    app.post('/newpost', isLoggedIn, function(req, res) {
+        var post = new Post();
+        post.user_id    = req.user.id;
+        post.postTitle      = req.param('title');
+        post.postType   = req.param('postType');
+        post.postDate   = new Date();
+        post.content    = req.param('content');
+        post.save();
+        res.redirect('/forum');
+
+    });
+
+    //edit new post
     app.get('/newpost', function(req, res) {
         res.render('newpost.ejs', {
 
@@ -16,17 +30,32 @@ module.exports = function(app, passport) {
     });
 
     //view post
-    app.get('/post', function(req, res) {
-        res.render('post.ejs', {
+    app.get('/viewpost/:id', function(req, res) {
 
+        Post.findOne({_id: req.params.id}, function (err, post) {
+            if (err) {
+            }
+            ;
+            res.render('viewpost.ejs', {
+                post: post
+            });
         });
+
+
     });
 
     // construct forum
     app.get('/forum', function(req, res) {
-        res.render('forum.ejs', {
 
+        Post.find({},function (err, posts) {
+            if (err) {
+            }
+            ;
+            res.render('forum.ejs', {
+                posts: posts
+            });
         });
+
     });
 
 

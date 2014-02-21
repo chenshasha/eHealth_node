@@ -1,0 +1,31 @@
+<%- include header %>
+ <div style="padding:50px">
+ </div>
+
+ <div class="container">
+
+
+        <div class="panel panel-<%= post.postType %>">
+        <div class="panel-heading">
+             <h3 class="panel-title"><%= post.postTitle %></h3>
+           </div>
+           <div class="panel-body">
+           <%= post.content %>
+           </div>
+           <% post.reply.forEach( function ( item ){ %>
+           <div class="panel-body">
+             <%= item.content %>
+           </div>
+           <% }); %>
+
+
+ <div>
+ <form>
+ <textarea class="form-control" rows="3" placeholder="Type Here ..."></textarea>
+ <div style="padding:5px"></div>
+ <button class="btn btn-primary" style="float: right;">Submit </button>
+ </form>
+
+ </div>
+
+ </div>
