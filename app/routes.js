@@ -8,6 +8,13 @@ module.exports = function(app, passport) {
 
 // normal routes ===============================================================
 
+    //create new post
+    app.get('/newpost', function(req, res) {
+        res.render('newpost.ejs', {
+
+        });
+    });
+
     //view post
     app.get('/post', function(req, res) {
         res.render('post.ejs', {
