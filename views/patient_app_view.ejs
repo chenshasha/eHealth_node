@@ -1,0 +1,64 @@
+<%- include header %>
+
+
+<title>Appointment | Patient | View</title>
+
+<!-- Bootstrap core CSS -->
+<link href="/stylesheets/dist/css/bootstrap.css" rel="stylesheet">
+
+<!-- Add custom CSS here -->
+<link href="/stylesheets/dist/css/shop-item.css" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="/stylesheets/form/view.css" media="all">
+<script type="text/javascript" src="/stylesheets/form/view.js"></script>
+<script type="text/javascript" src="/stylesheets/form/calendar.js"></script>
+
+</head>
+
+<body>
+	<div class="container">
+		<div class="col-md-3">
+			<p class="lead">Appointment Services</p>
+			<div class="list-group">
+				<a href="/app" class="list-group-item">Appointment Request</a>
+				<a href="/viewapp" class="list-group-item active">View Status</a>
+			</div>
+		</div>
+
+
+		 <div style="margin:0 auto;width:45%">
+            <% item.forEach( function ( item ){ %>
+
+            <div class="col-md-9">
+            		<table class="table table-bordered table-striped">
+                    <tbody style="text-align:left;">
+                      <tr>
+                        <th style="width: 90px;">Modified Date: </th>
+                    	<td><%= item.modifiedDate %></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Status: </th>
+                    	<td><%= item.status %></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Address: </th>
+                    	<td><%= item.address %></td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                  <button class="btn btn-primary" style="float: right;">Cancel</button>
+            		</div>
+                     <% }); %>
+                     </div>
+                     </div>
+
+
+
+	</div>
+
+	<!-- JavaScript -->
+	<script src="/stylesheets/dist/js/jquery-1.10.2.js"></script>
+	<script src="/stylesheets/dist/js/bootstrap.js"></script>
+</body>
+</html>
