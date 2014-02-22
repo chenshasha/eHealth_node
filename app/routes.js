@@ -3,17 +3,40 @@ var PendingReq    = require('../app/models/pending_req');
 var Agent         = require('../app/models/agent_profile');
 var Doctor        = require('../app/models/doctor_profile');
 var Post          = require('../app/models/post');
+var Reply          = require('../app/models/reply');
 
 module.exports = function(app, passport) {
 
 
 // normal routes ===============================================================
 
+    //reply to post
+    app.post('/replypost/:id', isLoggedIn, function(req, res) {
+        var reply = new Reply();
+        reply.user_id      = req.user.id;
+        reply.mainThreadID = req.params.id;
+        reply.postDate     = new Date();
+        reply.content      = req.param('content');
+        reply.save();
+        console.log(reply);
+        Post.findOne({_id: req.params.id}, function (err, post) {
+            if (err) {
+            }
+            ;
+            post.reply.push(reply);
+            post.save();
+        });
+
+
+        res.redirect('/viewpost/'+ req.params.id);
+
+    });
+
     //submit new post
     app.post('/newpost', isLoggedIn, function(req, res) {
         var post = new Post();
         post.user_id    = req.user.id;
-        post.postTitle      = req.param('title');
+        post.postTitle  = req.param('title');
         post.postType   = req.param('postType');
         post.postDate   = new Date();
         post.content    = req.param('content');
