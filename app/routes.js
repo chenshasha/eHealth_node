@@ -46,7 +46,7 @@ module.exports = function(app, passport) {
     });
 
     //edit new post
-    app.get('/newpost', function(req, res) {
+    app.get('/newpost', isLoggedIn, function(req, res) {
         res.render('newpost.ejs', {
 
         });
@@ -100,7 +100,7 @@ module.exports = function(app, passport) {
 
 
     // patient request appointment, doctor respond to request
-    app.get('/app', function(req, res) {
+    app.get('/app', isLoggedIn, function(req, res) {
         if(req.user.local.userType == "patient"){
             res.render('patient_app_request.ejs');
         }else if(req.user.local.userType == "doctor"){
@@ -115,7 +115,7 @@ module.exports = function(app, passport) {
     });
 
     // patient view appointment
-    app.get('/viewapp', function(req, res) {
+    app.get('/viewapp', isLoggedIn, function(req, res) {
 
         if(req.user.local.userType == "patient"){
             PendingReq.find({"patient_id": req.user.id}, function (err, item) {
