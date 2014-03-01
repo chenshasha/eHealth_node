@@ -181,7 +181,7 @@ module.exports = function(app, passport) {
                 }
                 else{
                     Patient.update({user_id:req.user.id},{firstName: req.param('firstName'), lastName:req.param('lastName'),
-                    address:req.param('address'), phone:req.param('phone'), email : req.param('email')}).exec();
+                    address:req.param('address'), phone:req.param('phone')}).exec();
 
                 };
             });
@@ -206,7 +206,7 @@ module.exports = function(app, passport) {
                 }
                 else{
                     Agent.update({user_id:req.user.id},{firstName: req.param('firstName'), lastName:req.param('lastName'),
-                        address:req.param('address'), phone:req.param('phone'), email : req.param('email')}).exec();
+                        address:req.param('address'), phone:req.param('phone')}).exec();
 
                 };
             });
@@ -276,7 +276,7 @@ module.exports = function(app, passport) {
 	app.get('/logout', function(req, res) {
 		req.logout();
 		res.redirect('/');
-        mongoose.connection.close();
+
 	});
 
 // =============================================================================
@@ -310,17 +310,7 @@ module.exports = function(app, passport) {
 			failureFlash : true // allow flash messages
 		}));
 
-	// facebook -------------------------------
 
-		// send to facebook to do the authentication
-		app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
-
-		// handle the callback after facebook has authenticated the user
-		app.get('/auth/facebook/callback',
-			passport.authenticate('facebook', {
-				successRedirect : '/profile',
-				failureRedirect : '/'
-			}));
 
 
 

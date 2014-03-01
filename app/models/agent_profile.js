@@ -9,7 +9,6 @@ var agentSchema = mongoose.Schema({
     lastName     : String,
     firstName    : String,
     phone        : String,
-    email        : String,
     address      : String
 });
 

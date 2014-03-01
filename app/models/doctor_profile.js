@@ -9,7 +9,6 @@ var doctorSchema = mongoose.Schema({
     lastName     : String,
     firstName    : String,
     phone        : String,
-    email        : String,
     address      : String,
     department   : String,
     review       :[]
