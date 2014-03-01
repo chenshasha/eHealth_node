@@ -3,7 +3,11 @@ var PendingReq    = require('../app/models/pending_req');
 var Agent         = require('../app/models/agent_profile');
 var Doctor        = require('../app/models/doctor_profile');
 var Post          = require('../app/models/post');
-var Reply          = require('../app/models/reply');
+var Reply         = require('../app/models/reply');
+var mongoose      = require('mongoose');
+
+
+
 
 module.exports = function(app, passport) {
 
@@ -181,9 +185,7 @@ module.exports = function(app, passport) {
 
                 };
             });
-            res.render('view_patient_profile.ejs', {
-                user : req.user
-            });
+
         };
         if(req.user.local.userType == "agent"){
             Agent.findOne(req.user.id, function(err, user) {
@@ -208,9 +210,7 @@ module.exports = function(app, passport) {
 
                 };
             });
-            res.render('view_general_profile.ejs', {
-                user : req.user
-            });
+
         };
         if(req.user.local.userType == "doctor"){
             Doctor.findOne(req.user.id, function(err, user) {
@@ -236,10 +236,9 @@ module.exports = function(app, passport) {
 
                 };
             });
-            res.render('view_general_profile.ejs', {
-                user : req.user
-            });
+
         };
+        res.redirect('/profile');
     });
 
     app.get('/profile', isLoggedIn, function(req, res) {
@@ -277,6 +276,7 @@ module.exports = function(app, passport) {
 	app.get('/logout', function(req, res) {
 		req.logout();
 		res.redirect('/');
+        mongoose.connection.close();
 	});
 
 // =============================================================================
