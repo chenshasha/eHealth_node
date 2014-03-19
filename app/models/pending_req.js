@@ -15,16 +15,27 @@ var mongoose = require('mongoose');
 
 // define
 var pendingReqSchema = mongoose.Schema({
-    status          : Number,
-    patient_id      : String,
     broker_id       : String,
     doctor_id       : String,
     modifiedDate    : Date,
     insurance       : String,
     reason          : String,
     department      : String,
+    address         : String,
+
+    status          : Number,
+    patient_id      : String,
     appDate         : Date,
-    address         : String
+    city            : String,
+    specialty       : String,
+    zipcode         : String,
+    infor           : String,
+    review_name     : [],
+    review_star     : [],
+    review_address  : [],
+    review_bussiness_id : [],
+
+
 });
 
 module.exports = mongoose.model('PendingReq', pendingReqSchema);
