@@ -216,14 +216,14 @@ module.exports = function(app, passport) {
     //create new profile when sign up or modify profile
     app.post('/profile', isLoggedIn, function(req, res) {
         if(req.user.local.userType == "patient"){
-            Patient.findOne(req.user.id, function(err, user) {
+            Patient.findOne({user_id: req.user.id}, function(err, user) {
                 // if there are any errors, return the error
                 if (err)
                     return done(err);
 
                 // if no user is found, return the message
                 if (!user){
-                    //console.log("ininin");
+                    console.log("1111111");
                     var patient = new Patient();
                     patient.user_id = req.user.id;
                     patient.firstName = req.param('firstName');
@@ -234,6 +234,7 @@ module.exports = function(app, passport) {
                     patient.save();
                 }
                 else{
+                    console.log("22222");
                     Patient.update({user_id:req.user.id},{firstName: req.param('firstName'), lastName:req.param('lastName'),
                     address:req.param('address'), phone:req.param('phone')}).exec();
 
@@ -299,7 +300,7 @@ module.exports = function(app, passport) {
 
         if(req.user.local.userType == "doctor"){
 
-            Doctor.findOne(req.user.id, function(err, doc) {
+            Doctor.findOne({user_id: req.user.id}, function(err, doc) {
                 res.render('view_doc_profile.ejs', {
                     user : req.user,
                     person  : doc
@@ -307,7 +308,7 @@ module.exports = function(app, passport) {
             });
 
         }else if(req.user.local.userType == "patient"){
-            Patient.findOne(req.user.id, function(err, pat) {
+            Patient.findOne({user_id: req.user.id}, function(err, pat) {
                 res.render('view_general_profile.ejs', {
                     user    : req.user,
                     person  : pat
@@ -315,7 +316,7 @@ module.exports = function(app, passport) {
             });
 
         }else{
-            Agent.findOne(req.user.id, function(err, agent) {
+            Agent.findOne({user_id: req.user.id}, function(err, agent) {
                 res.render('view_general_profile.ejs', {
                     user    : req.user,
                     person  : agent
