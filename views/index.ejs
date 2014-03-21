@@ -7,6 +7,30 @@
 	<style>
 		body 		{ padding-top:80px; }
 	</style>
+
+
+	<!-- messi href links -->
+	    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <link href="/stylesheets/messi/messi.css" rel="stylesheet">
+        <script src="/stylesheets/messi/messi.js"></script>
+
+	<script>
+	jQuery.noConflict();
+	(function($) {
+          $(document).ready(function() {
+            new Messi('This website is built with JavaScript, Node.js, MongoDb, Bootstrap, and deployed on AWS. It aims to ease the pain of finding a best-matched doctor for every patient by applying data mining technology. Give it a try by logging in the default account', {autoclose: 15000, center: false, viewport: {top: '370px', left: '310px'}, buttons: [{id: 0, label: 'Close', val: 'X'}]});
+
+             });
+
+
+    })(jQuery);
+
+    </script>
+
+
+
+
+
 </head>
 <body>
 <div class="container">
@@ -21,11 +45,7 @@
 		<a href="/forum" class="btn btn-default"><span class="fa fa-user"></span> Guest</a>
 	</div>
 
-	<div>
-    <script>
-    new Messi('This is a message with Messi.');
-    </script>
-	</div>
+
 
 
 
