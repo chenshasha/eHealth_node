@@ -15,208 +15,86 @@
 </head>
 
 <body>
-<div class="container">
-    <div class="col-md-3">
-        <p class="lead">Appointment Services</p>
-        <div class="list-group">
-            <a href="/app" class="list-group-item active">Appointment Request</a>
-            <a href="/viewapp" class="list-group-item">View Status</a>
-        </div>
-    </div>
+	<div class="container">
+		<div class="col-md-3">
+			<p class="lead">Appointment Services</p>
+			<div class="list-group">
+				<a href="/app" class="list-group-item active">Appointment Request</a>
+				<a href="/viewapp" class="list-group-item">View Status</a>
+			</div>
+		</div>
 
-    <div class="col-md-9">
-        <form style="text-align:left;" class="appnitro form-horizontal" method="post" action="/app_request">
-            <div class="form_description"></div>
-            <ul>
-                <li id="li_1"><label class="description" for="element_1"> Appointment Date
-                    </label> <span> <input id="element_1_1" name="element_1_1"
-                                           class="element text" size="2" maxlength="2" value="" type="text">
+		<div class="col-md-9">
+			<form style="text-align:left;" class="appnitro form-horizontal" method="post" action="/app_request">
+				<div class="form_description"></div>
+				<ul>
+                    <li id="li_1"><label class="description" for="element_1">Date
+					</label> <span> <input id="element_1_1" name="element_1_1"
+							class="element text" size="2" maxlength="2" value="" type="text">
 							/ <label for="element_1_1">MM</label>
 					</span> <span> <input id="element_1_2" name="element_1_2"
-                                          class="element text" size="2" maxlength="2" value="" type="text">
+							class="element text" size="2" maxlength="2" value="" type="text">
 							/ <label for="element_1_2">DD</label>
 					</span> <span> <input id="element_1_3" name="element_1_3"
-                                          class="element text" size="4" maxlength="4" value="" type="text">
+							class="element text" size="4" maxlength="4" value="" type="text">
 							<label for="element_1_3">YYYY</label>
 					</span> <span id="calendar_1"> <img id="cal_img_1"
-                                                        class="datepicker" src="includes/form/calendar.gif"
-                                                        alt="Pick a date.">
-					</span>
-                    <script type="text/javascript">
-                        Calendar.setup({
-                            inputField: "element_1_3",
-                            baseField: "element_1",
-                            displayArea: "calendar_1",
-                            button: "cal_img_1",
-                            ifFormat: "%B %e, %Y",
-                            onSelect: selectDate
-                        });
-                    </script>
-                </li>
+							class="datepicker" src="includes/form/calendar.gif" alt="Pick a date.">
+					</span> <script type="text/javascript">
+						Calendar.setup({
+							inputField : "element_1_3",
+							baseField : "element_1",
+							displayArea : "calendar_1",
+							button : "cal_img_1",
+							ifFormat : "%B %e, %Y",
+							onSelect : selectDate
+						});
+					</script></li>
 
-<!--                <li id="li_2"><label class="description" for="reason">Reason for Visit
-                    </label>
+					<li id="li_2"><label class="description" for="reason">Reason for Visit
+					</label>
+						<div>
+							<textarea id="reason" name="reason"
+								class="element textarea medium"></textarea>
+						</div></li>
 
-                    <div>
-                        <textarea id="reason" name="reason"
-                                  class="element textarea medium"></textarea>
-                    </div>
-                </li>
-
-                <li id="li_3"><label class="description" for="element_3">Address
-                    </label>
-
-                    <div>
-                        <textarea id="address" name="address"
-                                  class="element textarea medium"></textarea>
-                    </div>
-                </li>-->
+                    <li id="li_3"><label class="description" for="element_3">Address
+					</label>
+						<div>
+							<textarea id="address" name="address"
+								class="element textarea medium"></textarea>
+						</div></li>
 
 
-                <li id="li_4"><label class="description" for="insurance"> Insurance Type</label>
-                    <div>
-                        <select class="element select medium" id="insurance"
-                                name="insurance">
-                            <option value="" selected="selected">Please choose</option>
-                            <option value="AARP">AARP</option>
-                            <option value="Aetna">Aetna</option>
-                            <option value="American Family Insurance">American Family Insurance</option>
-                            <option value="American National Insurance Company">American National Insurance Company</option>
-                            <option value="Amerigroup">Amerigroup</option>
-                            <option value="Anthem Blue Cross and Blue Shield">Anthem Blue Cross and Blue Shield</option>
-                            <option value="Assurant">Assurant</option>
-                            <option value="Blue Cross and Blue Shield Association">Blue Cross and Blue Shield Association</option>
-                            <option value="Centene Corporation">Centene Corporation</option>
-                            <option value="Cigna">Cigna</option>
-                            <option value="Coventry Health Care">Coventry Health Care</option>
-                            <option value="EmblemHealth">EmblemHealth</option>
-                            <option value="Fortis">Fortis</option>
-                            <option value="Golden Rule Insurance Company">Golden Rule Insurance Company</option>
-                            <option value="Group Health Cooperative">Group Health Cooperative</option>
-                            <option value="GHI">GHI</option>
-                            <option value="Health Net">Health Net</option>
-                            <option value="HealthMarkets">HealthMarkets</option>
-                            <option value="HealthPartners">HealthPartners</option>
-                            <option value="HealthSpring">HealthSpring</option>
-                            <option value="Highmark">Highmark</option>
-                            <option value="Humana">Humana</option>
-                            <option value="Independence Blue Cross">Independence Blue Cross</option>
-                            <option value="Kaiser Permanente">Kaiser Permanente</option>
-                            <option value="Kaleida Health">Kaleida Health</option>
-                            <option value="LifeWise Health Plan of Oregon">LifeWise Health Plan of Oregon</option>
-                            <option value="Medica">Medica</option>
-                            <option value="Medical Mutual of Ohio">Medical Mutual of Ohio</option>
-                            <option value="Molina Healthcare">Molina Healthcare</option>
-                            <option value="Premera Blue Cross">Premera Blue Cross</option>
-                            <option value="Principal Financial Group">Principal Financial Group</option>
-                            <option value="The Regence Group">The Regence Group</option>
-                            <option value="Shelter Insurance">Shelter Insurance</option>
-                            <option value="State Farm">State Farm</option>
-                            <option value="Thrivent Financial for Lutherans">Thrivent Financial for Lutherans</option>
-                            <option value="UnitedHealth Group">UnitedHealth Group</option>
-                            <option value="Unitrin">Unitrin</option>
-                            <option value="Universal American Corporation">Universal American Corporation</option>
-                            <option value="WellCare Health Plans">WellCare Health Plans</option>
-                            <option value="WellPoint">WellPoint</option>
-                        </select>
-                    </div>
-                </li>
+					<li id="li_4"><label class="description" for="insurance">Insurance Type</label>
+						<div>
+							<select class="element select medium" id="insurance"
+								name="insurance">
+								<option value="" selected="selected"></option>
+								<option value="cigna">Cigna</option>
+								<option value="aetna">Aetna</option>
+								<option value="kaiser">Kaiser</option>
 
+							</select>
+						</div></li>
+					<li id="li_5"><label class="description" for="department">Department</label>
+                        <div>
+							<select class="element select medium" id="department"
+								name="department">
+								<option value="" selected="selected"></option>
+								<option value="Allergy and Immunology">Allergy & Immunology</option>
+								<option value="Cosmetic Surgery">Cosmetic Surgery</option>
+							</select>
+						</div></li>
 
-                <li id="li_5"><label class="description" for="specialty">Choose a specialty</label>
+					<li>
+						<div class="pull-right">
+						<button type="submit" class="btn btn-primary" style="float: right;">Submit</button></div></li>
+				</ul>
+			</form>
+		</div>
+	</div>
 
-                    <div>
-                        <select class="element select medium" id="specialty"
-                                name="specialty">
-                            <option value="" selected="selected"></option>
-                            <option value="Allergists">Allergists</option>
-                            <option value="Anesthesiologists">Anesthesiologists</option>
-                            <option value="Audiologist">Audiologist</option>
-                            <option value="Cardiologists">Cardiologists</option>
-                            <option value="Cosmetic Surgeons">Cosmetic Surgeons</option>
-                            <option value="Dermatologists">Dermatologists</option>
-                            <option value="Ear Nose& Throat">Ear Nose & Throat</option>
-                            <option value="Family Practice">Family Practice</option>
-                            <option value="Fertility">Fertility</option>
-                            <option value="Gastroenterologist">Gastroenterologist</option>
-                            <option value="Gerontologists">Gerontologists</option>
-                            <option value="Internal Medicine">Internal Medicine</option>
-                            <option value="Naturopathic/Holistic">Naturopathic/Holistic</option>
-                            <option value="Neurologist">Neurologist</option>
-                            <option value="Obstetricians & Gynecologists">Obstetricians & Gynecologists</option>
-                            <option value="Oncologist">Oncologist</option>
-                            <option value="Ophthalmologists">Ophthalmologists</option>
-                            <option value="Orthopedists">Orthopedists</option>
-                            <option value="Osteopathic Physicians">Osteopathic Physicians</option>
-                            <option value="Pediatricians">Pediatricians</option>
-                            <option value="Podiatrists">Podiatrists</option>
-                            <option value="Proctologists">Proctologists</option>
-                            <option value="Psychiatrists">Psychiatrists</option>
-                            <option value="Pulmonologist">Pulmonologist</option>
-                            <option value="Sports Medicine">Sports Medicine</option>
-                            <option value="Tattoo Removal">Tattoo Removal</option>
-                            <option value="Urologists">Urologists</option>                        </select>
-                    </div>
-                </li>
-
-                <li id="li_6"><label class="description" for="city">City</label>
-                    <div>
-                        <select class="element select medium" id="city"
-                                name="city">
-                            <option value="" selected="selected"></option>
-                            <option value="Phoenix">Phoenix</option>
-                            <option value="Chandler">Chandler</option>
-                            <option value="Scottsdale">Scottsdale</option>
-                            <option value="Surprise">Surprise</option>
-                            <option value="Paradise Valley">Paradise Valley</option>
-                            <option value="Sun City">Sun City</option>
-                            <option value="Glendale">Glendale</option>
-                            <option value="Peoria">Peoria</option>
-                            <option value="Gilbert">Gilbert</option>
-                            <option value="Tempe">Tempe</option>
-                            <option value="Mesa">Mesa</option>
-                            <option value="Sun City West">Sun City West</option>
-                            <option value="Gold Canyon">Gold Canyon</option>
-                            <option value="Laveen">Laveen</option>
-                            <option value="San Tan Valley">San Tan Valley</option>
-                            <option value="Avondale">Avondale</option>
-                            <option value="Goodyear">Goodyear</option>
-                            <option value="Ahwatukee">Ahwatukee</option>
-                            <option value="Carefree">Carefree</option>
-                            <option value="Casa Grande">Casa Grande</option>
-                            <option value="Sun Lakes">Sun Lakes</option>
-                            <option value="Maricopa">Maricopa</option>
-                            <option value="Queen Creek">Queen Creek</option>
-                            <option value="Higley">Higley</option>
-                        </select>
-                    </div>
-                </li>
-
-                <li id="li_7"><label class="description" for="zipcode"> Zipcode</label>
-                    <input type="text" class="form-control-lg" id="zipcode" name="zipcode" placeholder="Text input">
-                </li>
-
-
-                <li id="li_8"><label class="description" for="element_3">Additional Information
-                    </label>
-                    <div>
-                        <textarea id="infor" name="infor"
-                                  class="element textarea medium"></textarea>
-                    </div>
-                </li>
-
-                <li>
-                    <div class="pull-right">
-                        <button type="submit" class="btn btn-primary" style="float: right;">Submit</button>
-                    </div>
-
-
-                </li>
-            </ul>
-        </form>
-    </div>
-</div>
-
-<!-- JavaScript -->
-<script src="/stylesheets/dist/js/jquery-1.10.2.js"></script>
-<script src="/stylesheets/dist/js/bootstrap.js"></script>
+	<!-- JavaScript -->
+	<script src="/stylesheets/dist/js/jquery-1.10.2.js"></script>
+	<script src="/stylesheets/dist/js/bootstrap.js"></script>

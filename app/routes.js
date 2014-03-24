@@ -4,9 +4,8 @@ var Agent         = require('../app/models/agent_profile');
 var Doctor        = require('../app/models/doctor_profile');
 var Post          = require('../app/models/post');
 var Reply         = require('../app/models/reply');
-var DoctorReview  = require('../app/models/doctor_review')
 var mongoose      = require('mongoose');
-var sentiment     = require('sentiment')
+
 
 
 
@@ -90,60 +89,16 @@ module.exports = function(app, passport) {
     // patient submit request
     app.post('/app_request', isLoggedIn, function(req, res) {
         var request = new PendingReq();
-        var final = []
-        var average = []
-
-
-
         request.status          = 0;
         request.patient_id      = req.user.id;
         request.modifiedDate    = new Date();
-        request.appDate         = new Date(req.param('element_1_3'),req.param('element_1_1'),req.param('element_1_2'));
         request.insurance       = req.param('insurance');
-        request.specialty       = req.param('specialty');
-        request.city            = req.param('city');
-        request.zipcode         = req.param('zipcode');
-        request.infor           = req.param('infor');
-
         request.reason          = req.param('reason');
         request.address         = req.param('address');
         request.department      = req.param('department');
-        request.review_name     =[];
-        request.review_star     =[];
-        request.review_bussiness_id       =[];
-        request.review_address  =[];
-        DoctorReview.find({'value.city':req.param('city')},function (err,docs){
-            if(err){
-                console.log("Problemmmmmmmmmmmmmmmm")
-            }
-            var length = docs.length;
-
-
-            for ( var i = 0; i < length; i++) {
-                final.push ([]);
-                var length1 = docs[i].value.texts.length;
-                for (var j = 0; j < length1; j++) {
-                    sentiment(
-                        docs[i].value.texts[j].text
-                        , function (err, result) {
-                            record= result.score;
-                        });
-                    final[i].push(record)
-                }
-                var sum = eval(final[i].join('+')), avg = sum / final[i].length;
-                request.review_name.push(docs[i].value.name);
-                request.review_star.push(avg);
-                request.review_address.push(docs[i].value.full_address);
-                request.review_bussiness_id.push(docs[i]._id);
-            }
-            request.save();
-
-        });
-
+        request.appDate         = new Date(req.param('element_1_3'),req.param('element_1_1'),req.param('element_1_2'));
         console.log(request.appDate);
-
         request.save();
-
         res.redirect('/app');
     });
 
@@ -173,15 +128,6 @@ module.exports = function(app, passport) {
                     user: req.user
                 });
             });
-/*
-                DoctorReview.find({"value.categories": req.specialty}, function (err, review) {
-                    res.render('patient_app_view.ejs', {
-                        review: review
-                    });
- });
-*/
-
-
         }else if(req.user.local.userType == "doctor"){
             PendingReq.find({"doctor_id": req.user.id}, function (err, item) {
                 res.render('doc_app_view.ejs', {
