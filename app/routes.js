@@ -239,7 +239,9 @@ module.exports = function(app, passport) {
 
                 };
             });
-
+            res.render('view_patient_profile.ejs', {
+                user : req.user
+            });
         };
         if(req.user.local.userType == "agent"){
             Agent.findOne(req.user.id, function(err, user) {
@@ -264,7 +266,9 @@ module.exports = function(app, passport) {
 
                 };
             });
-
+            res.render('view_general_profile.ejs', {
+                user : req.user
+            });
         };
         if(req.user.local.userType == "doctor"){
             Doctor.findOne(req.user.id, function(err, user) {
@@ -290,9 +294,10 @@ module.exports = function(app, passport) {
 
                 };
             });
-
+            res.render('view_general_profile.ejs', {
+                user : req.user
+            });
         };
-        res.redirect('/profile');
     });
 
     app.get('/profile', isLoggedIn, function(req, res) {
