@@ -11,6 +11,7 @@ var doctorSchema = mongoose.Schema({
     phone        : String,
     address      : String,
     department   : String,
+    yelp_id		 : String,
     review       :[]
 });
 

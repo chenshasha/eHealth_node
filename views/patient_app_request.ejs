@@ -13,6 +13,37 @@
 <script type="text/javascript" src="/stylesheets/form/calendar.js"></script>
 
 </head>
+<%
+var categories= [
+	{display: 'Allergists', category:'allergist'},
+	{display: 'Anesthesiologists', category: 'anesthesiologists'},
+	{display: 'Audiologist', category: 'audiologist'},
+	{display: 'Cardiologists', category: 'cardiology'},
+	{display: 'Cosmetic Surgeons', category: 'cosmeticsurgeons'},
+	{display: 'Dermatologists', category: 'dermatology'},
+	{display: 'Ear Nose & Throat', category: 'earnosethroat'},
+	{display: 'Family Practice', category: 'familydr'},
+	{display: 'Fertility', category: 'fertility'},
+	{display: 'Gastroenterologist', category: 'gastroenterologist'},
+	{display: 'Gerontologists', category: 'gerontologist'},
+	{display: 'Internal Medicine', category: 'internalmed'},
+	{display: 'Naturopathic/Holistic', category: 'naturopathic'},
+	{display: 'Neurologist', category: 'neurologist'},
+	{display: 'Obstetricians & Gynecologists', category: 'obgyn'},
+	{display: 'Oncologist', category: 'oncologist'},	
+	{display: 'Ophthalmologists', category: 'opthamalogists'},
+	{display: 'Orthopedists', category: 'orthopedists'},
+	{display: 'Osteopathic Physicians', category: 'osteopathicphysicians'},
+	{display: 'Pediatricians', category: 'pediatricians'},
+	{display: 'Podiatrists', category: 'podiatrists'},
+	{display: 'Proctologists', category: 'proctologist'},
+	{display: 'Psychiatrists', category: 'psychiatrists'},
+	{display: 'Pulmonologist', category: 'pulmonologist'},
+	{display: 'Sports Medicine', category: 'sportsmed'},
+	{display: 'Tattoo Removal', category: 'tattooremoval'},
+	{display: 'Urologists', category: 'urologists'}
+];
+%>
 
 <body>
 	<div class="container">
@@ -30,13 +61,13 @@
 				<ul>
                     <li id="li_1"><label class="description" for="element_1">Date
 					</label> <span> <input id="element_1_1" name="element_1_1"
-							class="element text" size="2" maxlength="2" value="" type="text">
+							class="element text" size="2" maxlength="2" type="text" value=<%= element_1_1 %>>
 							/ <label for="element_1_1">MM</label>
 					</span> <span> <input id="element_1_2" name="element_1_2"
-							class="element text" size="2" maxlength="2" value="" type="text">
+							class="element text" size="2" maxlength="2" value=<%= element_1_2 %> type="text">
 							/ <label for="element_1_2">DD</label>
 					</span> <span> <input id="element_1_3" name="element_1_3"
-							class="element text" size="4" maxlength="4" value="" type="text">
+							class="element text" size="4" maxlength="4" value=<%= element_1_3 %> type="text">
 							<label for="element_1_3">YYYY</label>
 					</span> <span id="calendar_1"> <img id="cal_img_1"
 							class="datepicker" src="includes/form/calendar.gif" alt="Pick a date.">
@@ -50,12 +81,76 @@
 							onSelect : selectDate
 						});
 					</script></li>
+					
+					<li id="id_phisisian_search">  <label class="description" for="div-pick-physicial"> Pick a physician 
+						<div id="div-pick-physicial"  style="border:1px solid black" >
+						  <label for="city">City</label>
+						  <input type="text" id="city" name="city" class="element text"
+						    value="<%= city  %>"
+						    <% console.log("The city value is "+city);%>
+						  >
+						  
+						  <label class="description" for="specialty">Specialty</label>
+						  <select class="element select medium" id="specialty" name="specialty">
+						    <% console.log("There are "+categories.length+" categories");
+						       for( var i =0; i< categories.length; i++) {%>
+						       	 <% var cat=categories[i]; %>
+								 <option value="<%= cat.category %>" 
+									<% if(cat.category==specialty) 
+										{%> selected="selected" <%}  
+									%> >
+								   <%= cat.display %> 
+								 </option>
+						       <%}
+						    %>
+						  </select>
+
+						  <input type="text" id="keywords" name="keywords" size="30" class="element text" value="<%= keywords %>" >
+						  <button type="submit" name="command" value="search" class="btn btn-primary"> Search </button>
+
+						  <table id="physicial_table" name="physicial_table">
+						    <tr>
+							  <td>Select</td>
+  							  <td>Name</td>
+  							  <td>Address</td> 
+  							  <td>Rating</td>
+							  <td>Review</td>
+						    </tr>
+						    
+						    <%
+						      console.log("There are "+physicians.length+" physicians"); 
+						      for(var i=0; i<physicians.length; i++) {%>
+							    <tr>
+							  	  <td> <input type="radio" name="physician" 
+							  	  			value = <%= physicians[i].id %> 
+							  	    		<% if(physician== physicians[i].id) {%> checked <%}  %>  
+							  	       >
+							  	  </td>
+							  	  <% console.log("Rendered physician ID radio"); %>
+  								  <td><%= physicians[i].name %></td>
+  								  <td>
+  								    <%= ""+physicians[i].location.address
+  								    	+" "+physicians[i].location.city
+  								    	+" "+physicians[i].location.state_code
+  								    	+" "+physicians[i].location.postal_code 
+  								    %>
+  								  </td> 
+  								  <td><img src=<%= physicians[i].rating_img_url %> alt=<%= physicians[i].rating %> >
+  								  </td>
+					    		  <td> <%= physicians[i].snippet_text %> </td>
+						    	</tr>
+							  <%} 
+							%>
+						  </table>
+						  
+						</div>
+					</li>
 
 					<li id="li_2"><label class="description" for="reason">Reason for Visit
 					</label>
 						<div>
 							<textarea id="reason" name="reason"
-								class="element textarea medium"></textarea>
+								class="element textarea medium"><%=reason%></textarea>
 						</div></li>
 
                     <li id="li_3"><label class="description" for="element_3">Address
@@ -89,7 +184,7 @@
 
 					<li>
 						<div class="pull-right">
-						<button type="submit" class="btn btn-primary" style="float: right;">Submit</button></div></li>
+						<button type="submit" name="command" value="submit" class="btn btn-primary" style="float: right;">Submit</button></div></li>
 				</ul>
 			</form>
 		</div>

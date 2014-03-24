@@ -4,6 +4,7 @@ var Agent         = require('../app/models/agent_profile');
 var Doctor        = require('../app/models/doctor_profile');
 var Post          = require('../app/models/post');
 var Reply         = require('../app/models/reply');
+var Yelp 		  = require('../app/yelp/search');
 var mongoose      = require('mongoose');
 
 
@@ -88,25 +89,60 @@ module.exports = function(app, passport) {
 
     // patient submit request
     app.post('/app_request', isLoggedIn, function(req, res) {
-        var request = new PendingReq();
-        request.status          = 0;
-        request.patient_id      = req.user.id;
-        request.modifiedDate    = new Date();
-        request.insurance       = req.param('insurance');
-        request.reason          = req.param('reason');
-        request.address         = req.param('address');
-        request.department      = req.param('department');
-        request.appDate         = new Date(req.param('element_1_3'),req.param('element_1_1'),req.param('element_1_2'));
-        console.log(request.appDate);
-        request.save();
-        res.redirect('/app');
-    });
+    	if(req.param('command') == "search"){
+    		var city = req.param('city');
+    		var keywords = req.param('keywords');
+    		var specialty = req.param('specialty');
+    		Yelp.search(keywords, specialty, city, 5, function(error, data) {
+    			  if(!data) { 
+    				  console.log(error);
+    			  } else {
+    		          res.render('patient_app_request.ejs', {physicians: (data.businesses)?data.businesses:[],
+    		            	element_1_1: req.param('element_1_1'),
+    		            	element_1_2: req.param('element_1_2'),
+    		            	element_1_3: req.param('element_1_3'),
+    		            	city: city,
+    		            	keywords: keywords,
+    		            	specialty: specialty,
+    		            	reason:req.param('reason'),
+    		            	physician: req.param('physician'),
+    		        	  });
+    			  }
+    			});
+    		
+    	} else {
+			var request = new PendingReq();
+			request.status = 0;
+			request.patient_id = req.user.id;
+			request.doctor_yelp_id =  req.param('physician');
+			request.modifiedDate = new Date();
+			request.insurance = req.param('insurance');
+			request.reason = req.param('reason');
+			request.address = req.param('address');
+			request.department = req.param('department');
+			request.appDate = new Date(req.param('element_1_3'), req
+					.param('element_1_1'), req.param('element_1_2'));
+			console.log(request.appDate);
+			request.save();
+			res.redirect('/app');
+		}
+    }
+    	);
 
 
     // patient request appointment, doctor respond to request
     app.get('/app', isLoggedIn, function(req, res) {
+    	var today= new Date();
         if(req.user.local.userType == "patient"){
-            res.render('patient_app_request.ejs');
+            res.render('patient_app_request.ejs', {physicians:[],
+            	element_1_1: today.getMonth(),
+            	element_1_2: today.getDate(),
+            	element_1_3: today.getFullYear(),
+            	city: "",
+            	keywords: "",
+            	specialty:"",
+            	reason:"",
+            	physician:""} );
         }else if(req.user.local.userType == "doctor"){
             PendingReq.find({"doctor_id": req.user.id}, function (err, item) {
                 res.render('doc_app_request.ejs', {
@@ -148,10 +184,16 @@ module.exports = function(app, passport) {
 	// PROFILE SECTION =========================
 	app.get('/modifyprofile', isLoggedIn, function(req, res) {
         if(req.user.local.userType == "doctor"){
-            res.render('modify_doc_profile.ejs', {
-                user : req.user
+            Doctor.findOne({user_id:req.user.id}, function(err, doc) {
+            	if (!doc) {
+                    doc = new Doctor();
+                    doc.user_id = req.user.id;
+            	}
+                res.render('modify_doc_profile.ejs', {
+                    user : req.user,
+                    person  : doc
+                });
             });
-
         }else{
             res.render('modify_profile.ejs', {
                 user : req.user
@@ -161,8 +203,9 @@ module.exports = function(app, passport) {
 
     //create new profile when sign up or modify profile
     app.post('/profile', isLoggedIn, function(req, res) {
+    	console.log("Current user type "+ req.user.local.userType + " user ID "+ req.user.id );
         if(req.user.local.userType == "patient"){
-            Patient.findOne(req.user.id, function(err, user) {
+            Patient.findOne({user_id:req.user.id}, function(err, user) {
                 // if there are any errors, return the error
                 if (err)
                     return done(err);
@@ -188,7 +231,7 @@ module.exports = function(app, passport) {
 
         };
         if(req.user.local.userType == "agent"){
-            Agent.findOne(req.user.id, function(err, user) {
+            Agent.findOne({user_id:req.user.id}, function(err, user) {
                 // if there are any errors, return the error
                 if (err)
                     return done(err);
@@ -213,7 +256,7 @@ module.exports = function(app, passport) {
 
         };
         if(req.user.local.userType == "doctor"){
-            Doctor.findOne(req.user.id, function(err, user) {
+            Doctor.findOne({user_id:req.user.id}, function(err, user) {
                 // if there are any errors, return the error
                 if (err)
                     return done(err);
@@ -228,11 +271,12 @@ module.exports = function(app, passport) {
                     doctor.phone = req.param('phone');
                     doctor.email = req.param('email');
                     doctor.department = req.param('department');
+                    doctor.yelp_id = req.param('yelpId');
                     doctor.save();
                 }
                 else{
                     Doctor.update({user_id:req.user.id},{firstName: req.param('firstName'), lastName:req.param('lastName'),
-                        address:req.param('address'), phone:req.param('phone'), department : req.param('department'), email: req.param('email')}).exec();
+                        address:req.param('address'), phone:req.param('phone'), department : req.param('department'), email: req.param('email'), yelp_id : req.param('yelpId')}).exec();
 
                 };
             });
@@ -242,10 +286,14 @@ module.exports = function(app, passport) {
     });
 
     app.get('/profile', isLoggedIn, function(req, res) {
-
+    	
+    	console.log("Current user type "+ req.user.local.userType + " user ID "+ req.user.id );
         if(req.user.local.userType == "doctor"){
-
-            Doctor.findOne(req.user.id, function(err, doc) {
+            Doctor.findOne({user_id:req.user.id}, function(err, doc) {
+            	if (!doc) {
+                    doc = new Doctor();
+                    doc.user_id = req.user.id;
+            	}
                 res.render('view_doc_profile.ejs', {
                     user : req.user,
                     person  : doc
@@ -253,7 +301,11 @@ module.exports = function(app, passport) {
             });
 
         }else if(req.user.local.userType == "patient"){
-            Patient.findOne(req.user.id, function(err, pat) {
+            Patient.findOne({user_id:req.user.id}, function(err, pat) {
+            	if (!pat) {
+                    pat = new Patient();
+                    pat.user_id = req.user.id;
+            	}
                 res.render('view_general_profile.ejs', {
                     user    : req.user,
                     person  : pat
@@ -261,7 +313,7 @@ module.exports = function(app, passport) {
             });
 
         }else{
-            Agent.findOne(req.user.id, function(err, agent) {
+            Agent.findOne({user_id:req.user.id}, function(err, agent) {
                 res.render('view_general_profile.ejs', {
                     user    : req.user,
                     person  : agent

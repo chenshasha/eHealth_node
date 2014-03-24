@@ -19,6 +19,7 @@ var pendingReqSchema = mongoose.Schema({
     patient_id      : String,
     broker_id       : String,
     doctor_id       : String,
+    doctor_yelp_id	: String,
     modifiedDate    : Date,
     insurance       : String,
     reason          : String,
