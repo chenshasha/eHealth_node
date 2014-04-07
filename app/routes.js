@@ -5,6 +5,7 @@ var Doctor        = require('../app/models/doctor_profile');
 var Post          = require('../app/models/post');
 var Reply         = require('../app/models/reply');
 var DoctorReview  = require('../app/models/doctor_review')
+var Log			  = require('../app/models/log')
 var mongoose      = require('mongoose');
 var sentiment     = require('sentiment')
 
@@ -31,8 +32,16 @@ module.exports = function(app, passport) {
             post.reply.push(reply);
             post.save();
         });
-
-
+        
+        //Save the activity into logs
+        var log = new Log();
+        log.user_id = req.user.id;
+        log.content = "A new reply has been submitted.";
+        log.module_name = "Forum";
+        log.postDate = new Date();
+        log.save();
+        console.log("A new log has been saved into database.");
+        
         res.redirect('/viewpost/'+ req.params.id);
 
     });
@@ -46,6 +55,16 @@ module.exports = function(app, passport) {
         post.postDate   = new Date();
         post.content    = req.param('content');
         post.save();
+        
+        //Save the activity into logs
+        var log = new Log();
+        log.user_id = req.user.id;
+        log.content = "A new post has been submitted.";
+        log.module_name = "Forum";
+        log.postDate = new Date();
+        log.save();
+        console.log("A new log has been saved into database.");
+        
         res.redirect('/forum');
 
     });
@@ -92,8 +111,6 @@ module.exports = function(app, passport) {
         var request = new PendingReq();
         var final = []
         var average = []
-
-
 
         request.status          = 0;
         request.patient_id      = req.user.id;
@@ -143,6 +160,15 @@ module.exports = function(app, passport) {
         console.log(request.appDate);
 
         request.save();
+        
+        //Save the activity into logs
+        var log = new Log();
+        log.user_id = req.user.id;
+        log.content = "A new appointment has been submitted.";
+        log.module_name = "Appointment";
+        log.postDate = new Date();
+        log.save();
+        console.log("A new log has been saved into database.");
 
         res.redirect('/app');
     });
@@ -180,8 +206,6 @@ module.exports = function(app, passport) {
                     });
  });
 */
-
-
         }else if(req.user.local.userType == "doctor"){
             PendingReq.find({"doctor_id": req.user.id}, function (err, item) {
                 res.render('doc_app_view.ejs', {
@@ -232,11 +256,30 @@ module.exports = function(app, passport) {
                     patient.phone = req.param('phone');
                     patient.email = req.param('email');
                     patient.save();
+                    
+                    //Save the activity into logs
+                    var log = new Log();
+                    log.user_id = req.user.id;
+                    log.content = "A new patient ("+ req.param('firstName') +") has been registered.";
+                    log.module_name = "Profile";
+                    log.postDate = new Date();
+                    log.save();
+                    console.log("A new log has been saved into database.");
+                    
                 }
                 else{
                     console.log("22222");
                     Patient.update({user_id:req.user.id},{firstName: req.param('firstName'), lastName:req.param('lastName'),
                     address:req.param('address'), phone:req.param('phone')}).exec();
+                    
+                    //Save the activity into logs
+                    var log = new Log();
+                    log.user_id = req.user.id;
+                    log.content = "A patient's profile ("+ req.param('firstName') +") has been updated.";
+                    log.module_name = "Profile";
+                    log.postDate = new Date();
+                    log.save();
+                    console.log("A new log has been saved into database.");
 
                 };
             });
@@ -258,10 +301,28 @@ module.exports = function(app, passport) {
                     agent.phone = req.param('phone');
                     agent.email = req.param('email');
                     agent.save();
+                    
+                    //Save the activity into logs
+                    var log = new Log();
+                    log.user_id = req.user.id;
+                    log.content = "A new agent ("+ req.param('firstName') +") has been registered.";
+                    log.module_name = "Profile";
+                    log.postDate = new Date();
+                    log.save();
+                    console.log("A new log has been saved into database.");
                 }
                 else{
                     Agent.update({user_id:req.user.id},{firstName: req.param('firstName'), lastName:req.param('lastName'),
                         address:req.param('address'), phone:req.param('phone')}).exec();
+                    
+                    //Save the activity into logs
+                    var log = new Log();
+                    log.user_id = req.user.id;
+                    log.content = "A agent ("+ req.param('firstName') +") updated.";
+                    log.module_name = "Profile";
+                    log.postDate = new Date();
+                    log.save();
+                    console.log("A new log has been saved into database.");
 
                 };
             });
@@ -284,11 +345,28 @@ module.exports = function(app, passport) {
                     doctor.email = req.param('email');
                     doctor.department = req.param('department');
                     doctor.save();
+                    
+                    //Save the activity into logs
+                    var log = new Log();
+                    log.user_id = req.user.id;
+                    log.content = "A new doctor ("+ req.param('firstName') +") has been registered.";
+                    log.module_name = "Profile";
+                    log.postDate = new Date();
+                    log.save();
+                    console.log("A new log has been saved into database.");
                 }
                 else{
                     Doctor.update({user_id:req.user.id},{firstName: req.param('firstName'), lastName:req.param('lastName'),
                         address:req.param('address'), phone:req.param('phone'), department : req.param('department'), email: req.param('email')}).exec();
-
+                    
+                    //Save the activity into logs
+                    var log = new Log();
+                    log.user_id = req.user.id;
+                    log.content = "A doctor's profile ("+ req.param('firstName') +") has been updated.";
+                    log.module_name = "Profile";
+                    log.postDate = new Date();
+                    log.save();
+                    console.log("A new log has been saved into database.");    
                 };
             });
 
@@ -329,7 +407,16 @@ module.exports = function(app, passport) {
 
 	// LOGOUT ==============================
 	app.get('/logout', function(req, res) {
-		req.logout();
+		//Save the activity into logs
+        var log = new Log();
+        log.user_id = req.user.id; 
+        log.content = "The user has been logouted.";
+        log.module_name = "Logout";
+        log.postDate = new Date();
+        log.save();
+        console.log("A new log has been saved into database.");
+		
+		req.logout();    
 		res.redirect('/');
 
 	});
@@ -364,9 +451,6 @@ module.exports = function(app, passport) {
 			failureRedirect : '/signup', // redirect back to the signup page if there is an error
 			failureFlash : true // allow flash messages
 		}));
-
-
-
 
 
 // =============================================================================
