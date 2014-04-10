@@ -1,4 +1,4 @@
-var yelper = require("../app/yelp/search");
+var yelper = require("../app/yelp/yelpApi");
 
 
 yelper.search("food", "cardiology", "Sunnyvale", 2, function(error, data) {
@@ -6,9 +6,7 @@ yelper.search("food", "cardiology", "Sunnyvale", 2, function(error, data) {
   console.log(data);
 });
 
-/*
-yelp.business("yelp-san-francisco", function(error, data) {
+yelper.get("yelp-san-francisco", function(error, data) {
   console.log(error);
   console.log(data);
 });
-*/

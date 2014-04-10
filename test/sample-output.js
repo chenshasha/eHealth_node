@@ -64,3 +64,46 @@ null
     id: 'advanced-cardiovascular-specialists-mountain-view-2',
     is_closed: false,
     location: [Object] } ] }
+
+{ is_claimed: true,
+	  rating: 2.5,
+	  mobile_url: 'http://m.yelp.com/biz/yelp-san-francisco',
+	  rating_img_url: 'http://s3-media4.ak.yelpcdn.com/assets/2/www/img/c7fb9aff59f9/ico/stars/v1/stars_2_half.png',
+	  review_count: 5858,
+	  name: 'Yelp',
+	  snippet_image_url: 'http://s3-media4.ak.yelpcdn.com/photo/p64MNia3_pjIsVCVBaRzgw/ms.jpg',
+	  rating_img_url_small: 'http://s3-media4.ak.yelpcdn.com/assets/2/www/img/8e8633e5f8f0/ico/stars/v1/stars_small_2_half.png',
+	  url: 'http://www.yelp.com/biz/yelp-san-francisco',
+	  reviews: 
+	   [ { rating: 5,
+	       excerpt: 'Dedicated to all my Yelpers, be on the lookout this year for my Song Video Blog\n\nSong parody of Warren G\'s 1994 song "This...',
+	       time_created: 1397024745,
+	       rating_image_url: 'http://s3-media1.ak.yelpcdn.com/assets/2/www/img/f1def11e4e79/ico/stars/v1/stars_5.png',
+	       rating_image_small_url: 'http://s3-media1.ak.yelpcdn.com/assets/2/www/img/c7623205d5cd/ico/stars/v1/stars_small_5.png',
+	       user: [Object],
+	       rating_image_large_url: 'http://s3-media3.ak.yelpcdn.com/assets/2/www/img/22affc4e6c38/ico/stars/v1/stars_large_5.png',
+	       id: 'eJG4tQDtayViI20nY0eYgQ' } ],
+	  phone: '4159083801',
+	  snippet_text: 'I think I\'m addicted to this site just a few seconds into it. Fun to give my thoughts on the places near me.\n\nI understand there are lot of problems with it...',
+	  image_url: 'http://s3-media3.ak.yelpcdn.com/bphoto/4LSTYqXkQ-YrI1CQmr2dQA/ms.jpg',
+	  categories: 
+	   [ [ 'Local Flavor', 'localflavor' ],
+	     [ 'Mass Media', 'massmedia' ] ],
+	  display_phone: '+1-415-908-3801',
+	  rating_img_url_large: 'http://s3-media2.ak.yelpcdn.com/assets/2/www/img/d63e3add9901/ico/stars/v1/stars_large_2_half.png',
+	  id: 'yelp-san-francisco',
+	  is_closed: false,
+	  location: 
+	   { cross_streets: 'Natoma St & Minna St',
+	     city: 'San Francisco',
+	     display_address: 
+	      [ '140 New Montgomery St',
+	        '(b/t Natoma St & Minna St)',
+	        'Financial District',
+	        'San Francisco, CA 94105' ],
+	     neighborhoods: [ 'Financial District', 'SoMa' ],
+	     postal_code: '94105',
+	     country_code: 'US',
+	     address: [ '140 New Montgomery St' ],
+	     state_code: 'CA' } }
+

@@ -18,4 +18,9 @@ function search(term, category, location, limit, callback){
 	yelp.search( params, callback);
 }
 
+function get(id, callback){
+	yelp.business(id, callback);
+}
+
 exports.search=search;
+exports.get = get;

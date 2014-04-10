@@ -1,6 +1,6 @@
-<%- include header %>
-
 <title>Appointment | Patient | Request</title>
+
+<%- include header %>
 
 <!-- Bootstrap core CSS -->
 <link href="/stylesheets/dist/css/bootstrap.css" rel="stylesheet">
@@ -12,7 +12,6 @@
 <script type="text/javascript" src="/stylesheets/form/view.js"></script>
 <script type="text/javascript" src="/stylesheets/form/calendar.js"></script>
 
-</head>
 <%
 var categories= [
 	{display: 'Allergists', category:'allergist'},
@@ -120,6 +119,12 @@ var categories= [
 						    <%
 						      console.log("There are "+physicians.length+" physicians"); 
 						      for(var i=0; i<physicians.length; i++) {%>
+						        <%
+						          var physicianAddr= ""+physicians[i].location.address
+  								    	+" "+physicians[i].location.city
+  								    	+" "+physicians[i].location.state_code
+  								    	+" "+physicians[i].location.postal_code; 
+						        %>
 							    <tr>
 							  	  <td> <input type="radio" name="physician" 
 							  	  			value = <%= physicians[i].id %> 
@@ -127,13 +132,9 @@ var categories= [
 							  	       >
 							  	  </td>
 							  	  <% console.log("Rendered physician ID radio"); %>
-  								  <td><%= physicians[i].name %></td>
+  								  <td><a href=<%=physicians[i].url %>><%= physicians[i].name %></a></td>
   								  <td>
-  								    <%= ""+physicians[i].location.address
-  								    	+" "+physicians[i].location.city
-  								    	+" "+physicians[i].location.state_code
-  								    	+" "+physicians[i].location.postal_code 
-  								    %>
+  								    <%= physicianAddr  %>
   								  </td> 
   								  <td><img src=<%= physicians[i].rating_img_url %> alt=<%= physicians[i].rating %> >
   								  </td>

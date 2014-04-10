@@ -30,7 +30,7 @@
          </div>
 
 		 <div style="margin:0 auto;width:80%">
-            <% item.forEach( function ( item ){ %>
+            <% items.forEach( function ( item ){ %>
 
             <div class="col-md-9">
             		<table class="table table-bordered table-striped">
@@ -40,8 +40,12 @@
                         <td><%= item.appDate %></td>
                       </tr>
                       <tr>
-                        <th style="width: 90px;">Appointment Date: </th>
-                    	<td><%= item.appDate %></td>
+                        <th style="width: 90px;">Doctor Name: </th>
+                    	<td><%= item.doctor_name %></td>
+                      </tr>
+                      <tr>
+                        <th style="width: 90px;">Address: </th>
+                    	<td><%= item.address %></td>
                       </tr>
                       <tr>
                         <th style="width: 90px;">Modified Date: </th>
