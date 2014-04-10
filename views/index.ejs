@@ -7,22 +7,56 @@
 	<style>
 		body 		{ padding-top:80px; }
 	</style>
+
+	<script type="Text/Javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="/stylesheets/sudoslider/js/jquery.sudoSlider.min.js"></script>
+
+	<script type="text/javascript" >
+       $(document).ready(function(){
+          var sudoSlider = $("#slider").sudoSlider({
+             effect: "fade",
+             auto:true,
+             responsive:true,
+             prevNext:false
+          });
+       });
+    </script>
+    <style>
+    body
+    {
+        background: url("/stylesheets/pics/back.jpg");
+                    -webkit-background-size: cover; /* For WebKit*/
+                    -moz-background-size: cover;    /* Mozilla*/
+                    -o-background-size: cover;      /* Opera*/
+                    background-size: cover;         /* Generic*/
+
+    }
+    </style>
 </head>
+
 <body>
 <div class="container">
-
-	<div class="jumbotron text-center">
-		<h1><span class="fa fa-lock"></span> eHealth System</h1>
-
-		<p>Welcome</p>
-
+	<div class="text-center">
+		<h1>eHealth System</h1>
 		<a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Login</a>
 		<a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Signup</a>
 		<a href="/forum" class="btn btn-default"><span class="fa fa-user"></span> Guest</a>
 	</div>
-
-
-
 </div>
+<br>
+<div style="text-align:center;position:relative;">
+<div id="slider" >
+    <ul>
+        <li><img src='/stylesheets/pics/banner1.jpg' alt="image description"/></li>
+        <li><img src='/stylesheets/pics/banner2.jpg' alt="image description"/></li>
+        <li><img src='/stylesheets/pics/banner3.jpg' alt="image description"/></li>
+        <li><img src='/stylesheets/pics/banner5.jpg' alt="image description"/></li>
+    </ul>
+</div>
+</div>
+
+
+
+
 </body>
 </html>
