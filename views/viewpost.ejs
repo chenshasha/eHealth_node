@@ -12,12 +12,19 @@
 
            <div class="panel-body">
            <%= post.content %>
+               <div class="col-md-18 text-danger" >
+                   Created on:<%= post.postDate %>
+               </div>
            </div>
+
 
            <% post.reply.forEach( function ( item ){ %>
            <div class="panel panel-info" style="width:830px; margin-right:auto; margin-left:auto">
            <div class="panel-body">
              <%= item.content %>
+               <div class="col-md-18 text-danger">
+                   Created on:<%= item.postDate %>
+               </div>
            </div>
            </div>
            <% }); %>
@@ -39,3 +46,4 @@
  </div>
 
  </div>
+     </div>
