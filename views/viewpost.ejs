@@ -13,7 +13,8 @@
            <div class="panel-body">
            <%= post.content %>
                <div class="col-md-18 text-danger" >
-                   Created on:<%= post.postDate %>
+                   <div>Created on:<%= post.postDate %></div>
+                   <div>Post by:<%= post.user_id %></div>
                </div>
            </div>
 
@@ -23,7 +24,8 @@
            <div class="panel-body">
              <%= item.content %>
                <div class="col-md-18 text-danger">
-                   Created on:<%= item.postDate %>
+                   <div>Created on:<%= item.postDate %></div>
+                   <div>Post by:<%= item.user_id %></div>
                </div>
            </div>
            </div>
