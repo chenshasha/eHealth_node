@@ -1,20 +1,15 @@
  <%- include header %>
  <!-- messi message -->
-  	<script>
-      	jQuery.noConflict();
-      	(function($) {
-                $(document).ready(function() {
-                  new Messi('You can modify your profile, choose to make an appointment, or go to the forum', {autoclose: 6000, center: false, viewport: {top: '200px', left: '600px'}});
+   	<script>
+          	jQuery.noConflict();
+         	(function($) {
+                      $(document).ready(function() {
+                            new Messi('You can modify your profile, choose to make an appointment, or go to the forum', {autoclose: 6000, center: false, viewport: {top: '350px', left: '450px'}});
 
-                   });
+                                  });
+                      })(jQuery);
 
-
-          })(jQuery);
-
-          </script>
-
-
-
+    </script>
 <div style="padding:30px">
   </div>
 <div class="container">
@@ -24,28 +19,33 @@
 		<h1><span class="fa fa-anchor"></span> Profile Page</h1>
 	</div>
 
-	<div class="row">
 
-		<!-- LOCAL INFORMATION -->
-		<div class="col-sm-6">
-			<div class="well">
-				<h3><span class="fa fa-user"></span> Local</h3>
+	<form>
+    <div class="col-md-6 col-md-offset-3">
+    		  <table class="table table-bordered table-striped">
+    	          <tbody style="text-align:left;">
+    			    <tr>
+    				    <th style="width: 150px;">Email: </th>
+    				    <td><%= user.local.email %><br></td>
+    			    </tr>
+    			    <tr>
+                        <th style="width: 150px;">Name: </th>
+                    	<td><%= person.firstName %> <%= person.lastName %></td>
+                    </tr>
+    			    <tr>
+                        <th style="width: 150px;">Phone Number: </th>
+                    	<td><%= person.phone %><br></td>
+                    </tr>
+    			    <tr>
+                        <th style="width: 150px;">Address: </th>
+                    	<td><%= person.address %></td>
+                    </tr>
 
-
-					<p>
-						<strong>Email</strong>: <%= user.local.email %><br>
-						<strong>User Type</strong>: <%= user.local.userType %><br>
-                        <strong>Name</strong>: <%= person.firstName %> <%= person.lastName %><br>
-						<strong>Address</strong>: <%= person.address %><br>
-						<strong>Phone</strong>: <%= person.phone %><br>
-
-					</p>
-
-			</div>
-			<a href="/modifyprofile" class="btn btn-primary btn-sm">Modify   </a>
-
-		</div>
-
+    		    </tbody>
+    	    </table>
+    	    <a href="/modifyprofile" class="btn btn-primary btn-sm">Modify   </a>
+    </form>
 
 
 </div>
+

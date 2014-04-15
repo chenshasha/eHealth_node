@@ -5,50 +5,80 @@
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
 	<style>
-		body 		{ padding-top:80px; }
+		body 		{ padding-top:0px; }
 	</style>
 
+	<script type="Text/Javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="/stylesheets/sudoslider/js/jquery.sudoSlider.min.js"></script>
 
-	<!-- messi href links -->
-	    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-        <link href="/stylesheets/messi/messi.css" rel="stylesheet">
-        <script src="/stylesheets/messi/messi.js"></script>
-
-	<script>
-	jQuery.noConflict();
-	(function($) {
-          $(document).ready(function() {
-            new Messi('This website is built with JavaScript, Node.js, MongoDb, Bootstrap, and deployed on AWS. It aims to ease the pain of finding a best-matched doctor for every patient by applying data mining technology. Give it a try by logging in the default account', {autoclose: 15000, center: false, viewport: {top: '370px', left: '310px'}, buttons: [{id: 0, label: 'Close', val: 'X'}]});
-
-             });
-
-
-    })(jQuery);
-
+	<script type="text/javascript" >
+       $(document).ready(function(){
+          var sudoSlider = $("#slider").sudoSlider({
+             effect: "fade",
+             auto:true,
+             responsive:true,
+             prevNext:false
+          });
+       });
     </script>
+    <style>
+    body
+    {
+        background: url("/stylesheets/pics/back.jpg");
+                    -webkit-background-size: cover; /* For WebKit*/
+                    -moz-background-size: cover;    /* Mozilla*/
+                    -o-background-size: cover;      /* Opera*/
+                    background-size: cover;         /* Generic*/
+
+    }
+
+    </style>
+    <!-- messi href links -->
+    	    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+            <link href="/stylesheets/messi/messi.css" rel="stylesheet">
+            <script src="/stylesheets/messi/messi.js"></script>
+
+    	<script>
+        	jQuery.noConflict();
+        	(function($) {
+                      $(document).ready(function() {
+                            new Messi('This website is built with JavaScript, Node.js, MongoDb, Bootstrap, and deployed on AWS. It aims to ease the pain of finding a best-matched doctor for every patient by applying data mining technology. Give it a try by logging in the default account', {autoclose: 15000, center: false, viewport: {top: '370px', left: '310px'}, buttons: [{id: 0, label: 'Close', val: 'X'}]});
+
+                                    });
 
 
+                                })(jQuery);
 
-
+                  </script>
 
 </head>
+
 <body>
-<div class="container">
-
-	<div class="jumbotron text-center">
-		<h1><span class="fa fa-lock"></span> eHealth System</h1>
-
-		<p>Welcome</p>
-
-		<a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Login</a>
-		<a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Signup</a>
-		<a href="/forum" class="btn btn-default"><span class="fa fa-user"></span> Guest</a>
-	</div>
-
-
-
-
-
+<div style="position:relative; left: 120px;">
+  <img src="/stylesheets/pics/ehealth.jpg" width="800" height="150" style="style="position:relative; left: 60px;"/>
 </div>
+
+<div class="container">
+	<div class="text-center">
+		<a href="/login" class="btn btn-lg"><span class="fa fa-user"></span> Login</a>
+		<a href="/signup" class="btn btn-lg"><span class="fa fa-user"></span> Signup</a>
+		<a href="/forum" class="btn btn-lg"><span class="fa fa-user"></span> Guest</a>
+	</div>
+</div>
+<br>
+<div style="text-align:center;position:relative;">
+<div id="slider" >
+    <ul>
+        <li><img src='/stylesheets/pics/banner1.jpg' alt="image description"/></li>
+        <li><img src='/stylesheets/pics/banner2.jpg' alt="image description"/></li>
+        <li><img src='/stylesheets/pics/banner3.jpg' alt="image description"/></li>
+        <li><img src='/stylesheets/pics/banner5.jpg' alt="image description"/></li>
+    </ul>
+</div>
+</div>
+
+
+
+
 </body>
 </html>

@@ -5,7 +5,7 @@
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
 	<style>
-		body 		{ padding-top:80px; }
+		body 		{ padding-top:0px; }
 	</style>
 
 
@@ -18,7 +18,7 @@
     	jQuery.noConflict();
     	(function($) {
               $(document).ready(function() {
-                new Messi('Give it a try by logging in the default account as a patient', {autoclose: 3000, center: false, viewport: {top: '70px', left: '500px'}});
+                new Messi('Give it a try by logging in the default account as a patient', {autoclose: 3000, center: false, viewport: {top: '150px', left: '500px'}});
 
                  });
 
@@ -26,10 +26,24 @@
         })(jQuery);
 
         </script>
+    <style>
+        body
+        {
+            background: url("/stylesheets/pics/back.jpg");
+            -webkit-background-size: cover; /* For WebKit*/
+            -moz-background-size: cover;    /* Mozilla*/
+            -o-background-size: cover;      /* Opera*/
+            background-size: cover;         /* Generic*/
+
+        }
+    </style>
 
 
 </head>
 <body>
+<div style="position:relative; left: 120px;">
+    <img src="/stylesheets/pics/ehealth.jpg" width="800" height="150" style="style="position:relative; left: 60px;"/>
+</div>
 <div class="container">
 <div class="col-sm-6 col-sm-offset-3">
 

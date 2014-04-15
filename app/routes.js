@@ -16,6 +16,13 @@ module.exports = function(app, passport) {
 
 // normal routes ===============================================================
 
+    // view home page
+    app.get('/home', function(req, res) {
+        res.render('home.ejs', {
+
+        });
+    });
+
     //reply to post
     app.post('/replypost/:id', isLoggedIn, function(req, res) {
         var reply = new Reply();
