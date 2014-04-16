@@ -99,6 +99,9 @@ module.exports = function(app, passport) {
     app.post('/app_request', isLoggedIn, function(req, res) {
     	if(req.param('command') == "search"){
     		var city = req.param('city');
+    		if(!city){
+    			city="San Jose"; // Add default
+    		}
     		var keywords = req.param('keywords');
     		var specialty = req.param('specialty');
     		Yelp.search(keywords, specialty, city, 5, function(error, data) {
@@ -128,26 +131,32 @@ module.exports = function(app, passport) {
 	    			  if(!data) { 
 	    				  console.log(error);
 	    			  } else {
-	    				  //TODO fill in patient name here.
-	    				  request.doctor_name = data.name;
-						  request.address = data.location.display_address.join();
-						  request.modifiedDate = new Date();
-						  request.insurance = req.param('insurance');
-						  request.reason = req.param('reason');
-						  request.department = req.param('specialty');
-						  var month=parseInt(req.param('element_1_1'));
-						  month--;
-						  request.appDate = new Date(req.param('element_1_3'),
-								  month, req.param('element_1_2'));
-						  // also want to fill in the patient name here!!
-						  request.save();
-						  console.log("Created appointent " + request);
-			              res.render('patient_app_view.ejs', {
-			                    items: [request],
-			                    user: req.user,
-			                    message: "The following appointment request has been submitted."
-			                });
+	    				  // Add the patient's name to the appointment
+	    				  Patient.findOne({user_id:req.user.id}, function(err, patient) {
+	    		                // if there are any errors, return the error
+	    		                if (err || !patient)
+	    		                    return done(err+"\n Cannot locate the user");
+	  	    				  request.doctor_name = data.name;
+	  	    				  request.patient_name = patient.firstName+" "+patient.lastName;
+							  request.address = data.location.display_address.join();
+							  request.modifiedDate = new Date();
+							  request.insurance = req.param('insurance');
+							  request.reason = req.param('reason');
+							  request.department = req.param('specialty');
+							  var month=parseInt(req.param('element_1_1'));
+							  month--;
+							  request.appDate = new Date(req.param('element_1_3'),
+									  month, req.param('element_1_2'));
+							  request.save();
+							  console.log("Created appointent " + request);
+				              res.render('patient_app_view.ejs', {
+				                    items: [request],
+				                    user: req.user,
+				                    message: "The following appointment request has been submitted."
+				              });
 
+
+	    		            });
 	    			  }
 	    			});
 			} else {
@@ -172,7 +181,12 @@ module.exports = function(app, passport) {
             	specialty:"",
             	reason:"",
             	physician:""} );
-        }else if(req.user.local.userType == "doctor"){
+        }else if(req.user.local.userType == "agent"){
+        	res.render('agent_app_view.ejs', {
+                items: [],
+                user: req.user
+            });        
+        } else if(req.user.local.userType == "doctor"){
             PendingReq.find({"doctor_id": req.user.id}, function (err, item) {
                 res.render('doc_app_request.ejs', {
                     item: item,
@@ -183,12 +197,21 @@ module.exports = function(app, passport) {
 
     });
 
-    // patient view appointment
+    // patient/agent/doctor view appointment
     app.get('/viewapp', isLoggedIn, function(req, res) {
-
         if(req.user.local.userType == "patient"){
             PendingReq.find({"patient_id": req.user.id}, function (err, items) {
                 res.render('patient_app_view.ejs', {
+                    items: items,
+                    user: req.user
+                });
+            });
+        }else if(req.user.local.userType == "agent"){
+            PendingReq.find({'modifiedDate':{$exists:true}}, function (err, items) {
+               	if (err) {
+             		console.log("Error finding appointments for the current agent");
+             	}
+                res.render('agent_app_view.ejs', {
                     items: items,
                     user: req.user
                 });
@@ -230,8 +253,20 @@ module.exports = function(app, passport) {
 					}
 					var today = new Date();
 					app.modifiedDate = today;
-					app.save();
-					console.log("Updated appointent " + app);
+					
+					if(req.user.local.userType == "agent"){
+						// resolve agent name
+						Agent.findOne({user_id:req.user.id}, function(err, agent) {
+							if (err || !agent)
+								return done(err+"\n Cannot locate the agent");
+  	    				  	app.broker_name=agent.firstName+" "+agent.lastName;
+							app.save();
+							console.log("Updated appointent " + app);
+		                });
+					} else {
+						app.save();
+						console.log("Updated appointent " + app);
+					}
 				}
 			} else {
 				console.log("Unable to locate the app with appId=" + appId);
@@ -292,6 +327,7 @@ module.exports = function(app, passport) {
                     address:req.param('address'), phone:req.param('phone')}).exec();
 
                 };
+                res.redirect('/profile');
             });
 
         };
@@ -317,6 +353,7 @@ module.exports = function(app, passport) {
                         address:req.param('address'), phone:req.param('phone')}).exec();
 
                 };
+                res.redirect('/profile');
             });
 
         };
@@ -344,20 +381,10 @@ module.exports = function(app, passport) {
                         person: doctor
                         
                     });
-
-                //}
-                    /*
-                else{
-                    Doctor.update({user_id:req.user.id},{firstName: req.param('firstName'), lastName:req.param('lastName'),
-                        address:req.param('address'), phone:req.param('phone'), department : req.param('department'), email: req.param('email'), yelp_id : req.param('yelpId')}).exec();
-
-                };
-                */
                 
             });
         };
-        res.redirect('/profile');
-    });
+     });
 
     app.get('/profile', isLoggedIn, function(req, res) {
     	
