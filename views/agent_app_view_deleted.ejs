@@ -1,7 +1,7 @@
 <%- include header %>
 
 
-<title>Appointment | Patient | View</title>
+<title>Appointment | Agent | View</title>
 
 <!-- Bootstrap core CSS -->
 <link href="/stylesheets/dist/css/bootstrap.css" rel="stylesheet">
@@ -20,21 +20,12 @@
 		<div class="col-md-3">
 			<p class="lead">Appointment Services</p>
 			<div class="list-group">
-				<a href="/app" class="list-group-item">Appointment Request</a>
-				<a href="/viewapp" class="list-group-item active">My Appointments</a>
+				<a href="/viewapp" class="list-group-item active">Process Appointments</a>
 			</div>
 		</div>
-    </div>
 
-    <div class="col-md-10">
-         
-        <% // show the optional message, if exists
-           if(typeof message != 'undefined'  && message) { %>
-           <p class="lead"> <%= message %> </p>
-           <br>
-         <%} %>
 
-		 <div style="float: left; margin-left: 400px; margin-top: 0px;">
+		 <div style="margin:0 auto;width:45%">
             <%
               var yesterday= new Date();
               yesterday.setDate(yesterday.getDate()-1); 
@@ -42,64 +33,66 @@
               if(yesterday <= item.appDate) { // only handle future appointments for the moment
             %>
 
-            <div>
-            		<table class="table table-hover table-bordered">
+            <div class="col-md-9">
+            		<table class="table table-bordered table-striped">
                     <tbody style="text-align:left;">
                       <tr>
                         <th style="width: 90px;">Appointment Date: </th>
-                        <td><%= item.appDate %></td>
+                    	<td><%= item.appDate %></td>
+                      </tr>
+                      <tr>
+                        <th style="width: 90px;">Patient Name: </th>
+                    	<td><%= item.patient_name %> (<%= item.patient_id %>)</td>
                       </tr>
                       <tr>
                         <th style="width: 90px;">Doctor Name: </th>
                     	<td><%= item.doctor_name %></td>
                       </tr>
-                      <% if(item.broker_name){ %>
-                      <tr>
-                        <th style="width: 90px;">Agent Name: </th>
-                    	<td><%= item.broker_name %></td>
-                      </tr>
-                      <% } %>
                       <tr>
                         <th style="width: 90px;">Reason for visit: </th>
                     	<td><%= item.reason %></td>
                       </tr>
                       <tr>
-                        <th style="width: 90px;">Address: </th>
+                        <th style="width: 90px;">Insurance: </th>
+                    	<td><%= item.insurance %></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Status: </th>
+                    	<td><%= item.status %></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Address: </th>
                     	<td><%= item.address %></td>
                       </tr>
                       <tr>
                         <th style="width: 90px;">Modified Date: </th>
                     	<td><%= item.modifiedDate %></td>
                       </tr>
-                      <tr>
-                        <th scope="row">Status: </th>
-                    	<td><%= item.status %></td>
-                      </tr>
+                      
+
                     </tbody>
                   </table>
 
 				  <form style="text-align:left;" class="appnitro form-horizontal" method="post" action="/modifyApp" >
 				  	<input type="hidden" name="appId" value = <%= item._id %> >
 				    <% if(item.status != "CANCELED") { %>
-	  					 <button type="submit" name="command" value="CANCEL" class="btn btn-primary"> Cancel </button>
+	  					<button type="submit" name="command" value="CANCEL" style="float: right;" class="btn btn-primary"> Cancel </button>
 	  				<% }
-	  				   else {
-	  				%>
-	  				     <button type="submit" name="command" value="DELETE" class="btn btn-primary"> Delete </button>
-	  				<% }
-	  				%>
+	  				if (item.status == "PENDING") { %>
+						<button type="submit" name="command" value="CONFIRM" style="float: right;" class="btn btn-primary"> Confirm </button>
+					<% } 
+					if(item.status == "CANCELED") { %>
+	  				     <button type="submit" name="command" value="DELETE" style="float: right;" class="btn btn-primary"> Delete </button>
+	  				<% } %>
 				  </form>
-
-
+ 
             		</div>
-                    <br>
-                    <br>
             	<% }
                 }); %>
-                     </div>
-                     </div>
+                  </div>
+                </div>
 
-    </div>
+
 
 	</div>
 

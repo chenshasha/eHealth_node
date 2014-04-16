@@ -1,6 +1,7 @@
  <%- include header %>
  <div style="padding:30px">
   </div>
+
 <div class="container">
 	<div class="page-header text-center">
 		<h1><span class="fa fa-anchor"></span> Profile Page</h1>
@@ -10,23 +11,23 @@
 
 <form action="/profile" method="post" accept-charset="utf-8">
 <div class="col-md-6 col-md-offset-3">
-		  <table class="table table-bordered table-striped">
+		  <table class="table table-bordered table-hover">
 	          <tbody style="text-align:left;">
 			    <tr>
 				    <th style="width: 150px;">First Name: </th>
-				    <td><input name="firstName" size = "50" data-type="text" data-placement="right" required></a></td>
+				    <td><input class="form-control" name="firstName" size = "50" data-type="text" data-placement="right" required></a></td>
 			    </tr>
 			    <tr>
                     <th style="width: 150px;">Last Name: </th>
-                	<td><input name="lastName" size = "50" data-type="text" data-placement="right" required></a></td>
+                	<td><input class="form-control" name="lastName" size = "50" data-type="text" data-placement="right" required></a></td>
                 </tr>
 			    <tr>
                     <th style="width: 150px;">Phone Number: </th>
-                	<td><input name="phone" size = "50" data-type="text" data-placement="right" required></a></td>
+                	<td><input class="form-control" name="phone" size = "50" data-type="text" data-placement="right" required></a></td>
                 </tr>
 			    <tr>
                     <th style="width: 150px;">Address: </th>
-                	<td><input name="address" size = "50" data-type="text" data-placement="right" required></a></td>
+                	<td><input class="form-control" name="address" size = "50" data-type="text" data-placement="right" required></a></td>
                 </tr>
 
 		    </tbody>

@@ -182,16 +182,19 @@ module.exports = function(app, passport) {
             	reason:"",
             	physician:""} );
         }else if(req.user.local.userType == "agent"){
-        	res.render('agent_app_view.ejs', {
-                items: [],
-                user: req.user
-            });        
+//        	res.render('agent_app_view.ejs', {
+//                items: [],
+//                user: req.user
+//            });
+            res.redirect('/viewapp');
+
         } else if(req.user.local.userType == "doctor"){
             PendingReq.find({"doctor_id": req.user.id}, function (err, item) {
-                res.render('doc_app_request.ejs', {
-                    item: item,
-                    user: req.user
-                });
+//                res.render('doc_app_request.ejs', {
+//                    item: item,
+//                    user: req.user
+//                });
+                  res.redirect('/viewapp');
             });
         }
 
@@ -216,20 +219,23 @@ module.exports = function(app, passport) {
                     user: req.user
                 });
             });
+
+
         }else if(req.user.local.userType == "doctor"){
         	 Doctor.findOne({user_id:req.user.id}, function(err, doc) {
              	if (!doc) {
              		console.log("Error locataing the current doctor");
              	}
-        	
+
              	PendingReq.find({"doctor_yelp_id": doc.yelp_id}, function (err, items) {
              		res.render('doc_app_view.ejs', {
              			items: items,
              			user: req.user
              		});
              	});
-             	
+
         	 });
+
         };
     });
     

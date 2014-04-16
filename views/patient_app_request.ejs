@@ -62,19 +62,19 @@ var categories= [
 
 
 		<div class="col-md-9">
-			<form style="text-align:left;" class="appnitro form-horizontal" method="post" action="/app_request">
-				<div class="form_description"></div>
+			<form style="text-align:left;" method="post" action="/app_request">
+
 				<ul>
-                    <li id="li_1"><label class="description" for="element_1">Date
-					</label> <span> <input id="element_1_1" name="element_1_1"
-							class="element text" size="2" maxlength="2" type="text" value=<%= element_1_1 %>>
-							/ <label for="element_1_1">MM</label>
+                    <li id="li_1"><h4 for="element_1">Date
+					</h4> <span> <input id="element_1_1" name="element_1_1"
+							class="form-control" size="2" maxlength="2" type="text" value=<%= element_1_1 %>>
+							 <h6 for="element_1_1">MM</h6>
 					</span> <span> <input id="element_1_2" name="element_1_2"
-							class="element text" size="2" maxlength="2" value=<%= element_1_2 %> type="text">
-							/ <label for="element_1_2">DD</label>
+							class="form-control" size="2" maxlength="2" value=<%= element_1_2 %> type="text">
+							 <h6 for="element_1_2">DD</h6>
 					</span> <span> <input id="element_1_3" name="element_1_3"
-							class="element text" size="4" maxlength="4" value=<%= element_1_3 %> type="text">
-							<label for="element_1_3">YYYY</label>
+							class="form-control" size="4" maxlength="4" value=<%= element_1_3 %> type="text">
+							<h6 for="element_1_3">YYYY</h6>
 					</span> <span id="calendar_1"> <img id="cal_img_1"
 							class="datepicker" src="includes/form/calendar.gif" alt="Pick a date.">
 					</span> <script type="text/javascript">
@@ -88,16 +88,16 @@ var categories= [
 						});
 					</script></li>
 					
-					<li id="id_phisisian_search">  <label class="description" for="div-pick-physicial"> Pick a Physician
-						<div id="div-pick-physicial"  style="border:1px solid black" >
-						  <label for="city">City</label>
-						  <input type="text" id="city" name="city" class="element text"
+					<li id="id_phisisian_search">  <h4> Pick a Physician</h4>
+						<div id="div-pick-physicial">
+						  <h5>City</h5>
+						  <input class="form-control" type="text" id="city" name="city"
 						    value="<%= city  %>"
 						    <% console.log("The city value is "+city);%>
 						  >
 						  
-						  <label class="description" for="specialty">Specialty</label>
-						  <select class="element select medium" id="specialty" name="specialty">
+						  <h5 for="specialty">Specialty</h5>
+						  <select class="form-control" id="specialty" name="specialty">
 						    <% console.log("There are "+categories.length+" categories");
 						       for( var i =0; i< categories.length; i++) {%>
 						       	 <% var cat=categories[i]; %>
@@ -111,16 +111,23 @@ var categories= [
 						    %>
 						  </select>
 
-						  <input type="text" id="keywords" name="keywords" size="30" class="element text" value="<%= keywords %>" >
-						  <button type="submit" name="command" value="search" class="btn btn-primary"> Search </button>
+                          <div>
+                          <h5>Enter Keywords</h5>
+						  <input type="text" id="keywords" name="keywords" size="30" class="form-control" value="<%= keywords %>" >
+                          </div>
 
-						  <table id="physicial_table" name="physicial_table">
+                              <button type="submit" name="command" value="search" class="btn btn-primary"> Search </button>
+
+                          <div>
+                          <br>
+                          <div><h4>View Result</h4></div>
+						  <table class = "table table-hover" id="physicial_table" name="physicial_table">
 						    <tr>
-							  <td>Select</td>
-  							  <td>Name</td>
-  							  <td>Address</td> 
-  							  <td>Rating</td>
-							  <td>Review</td>
+							  <td><h5>Select</h5></td>
+  							  <td><h5>Name</h5></td>
+  							  <td><h5>Address</h5></td>
+  							  <td><h5>Rating</h5></td>
+							  <td><h5>Review</h5></td>
 						    </tr>
 						    
 						    <%
@@ -150,20 +157,21 @@ var categories= [
 							  <%} 
 							%>
 						  </table>
+                          </div>
 						  
 						</div>
 					</li>
 
-					<li id="li_2"><label class="description" for="reason">Reason for Visit
-					</label>
+					<li id="li_2"><h5 for="reason">Reason for Visit
+					</h5>
 						<div>
 							<textarea id="reason" name="reason"
-								class="element textarea medium"><%=reason%></textarea>
+                                      class="form-control" rows="3"><%=reason%></textarea>
 						</div></li>
 
-					<li id="li_4"><label class="description" for="insurance">Insurance Type</label>
+					<li id="li_4"><h5 for="insurance">Insurance Type</h5>
 						<div>
-							<select class="element select medium" id="insurance"
+							<select class="form-control" id="insurance"
 								name="insurance">
 								<option value="" selected="selected"></option>
 								<option value="cigna">Cigna</option>
@@ -173,8 +181,8 @@ var categories= [
 							</select>
 						</div></li>
 					<li>
-						<div class="pull-right">
-						<button type="submit" name="command" value="submit" class="btn btn-primary" style="float: right;">Submit</button></div></li>
+						<div>
+						<button type="submit" name="command" value="submit" class="btn btn-primary">Submit</button></div></li>
 				</ul>
 			</form>
 		</div>

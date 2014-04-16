@@ -1,91 +1,73 @@
 <%- include header %>
+<div style="padding:30px">
+</div>
+<div class="container">
+
+    <div class="page-header text-center">
+
+        <h1><span class="fa fa-anchor"></span> Appointment Page</h1>
+    </div>
 
 
-<title>Appointment | Doctor | View</title>
+    <div class="col-md-6 col-md-offset-3" style="width:80%">
+        <%
+        var yesterday= new Date();
+        yesterday.setDate(yesterday.getDate()-1);
+                items.forEach( function ( item ){
+                if(yesterday <= item.appDate) { // only handle future appointments for the moment
+        %>
 
-<!-- Bootstrap core CSS -->
-<link href="/stylesheets/dist/css/bootstrap.css" rel="stylesheet">
+        <div class="col-md-9">
+            <table class="table table-bordered table-hover">
+                <tbody style="text-align:left;">
+                <tr>
+                    <th style="width: 90px;">Appointment Date: </th>
+                    <td><%= item.appDate %></td>
+                </tr>
+                <tr>
+                    <th style="width: 90px;">Patient Name: </th>
+                    <td><%= item.patient_name %></td>
+                </tr>
+                <tr>
+                    <th style="width: 90px;">Reason for visit: </th>
+                    <td><%= item.reason %></td>
+                </tr>
+                <tr>
+                    <th style="width: 90px;">Insurance: </th>
+                    <td><%= item.insurance %></td>
+                </tr>
+                <tr>
+                    <th scope="row">Status: </th>
+                    <td><%= item.status %></td>
+                </tr>
+                <tr>
+                    <th scope="row">Address: </th>
+                    <td><%= item.address %></td>
+                </tr>
 
-<!-- Add custom CSS here -->
-<link href="/stylesheets/dist/css/shop-item.css" rel="stylesheet">
+                </tbody>
+            </table>
 
-<link rel="stylesheet" type="text/css" href="/stylesheets/form/view.css" media="all">
-<script type="text/javascript" src="/stylesheets/form/view.js"></script>
-<script type="text/javascript" src="/stylesheets/form/calendar.js"></script>
+            <form style="text-align:left;" class="appnitro form-horizontal" method="post" action="/modifyApp" >
+                <input type="hidden" name="appId" value = <%= item._id %> >
+                <% if(item.status != "CANCELED") { %>
+                <button type="submit" name="command" value="CANCEL" class="btn btn-primary"> Cancel </button>
+                <% };
+                        if (item.status == "PENDING") { %>
+                <button type="submit" name="command" value="CONFIRM" class="btn btn-primary"> Confirm </button>
+                <% } %>
+            </form>
 
-</head>
-
-<body>
-	<div class="container">
-		<div class="col-md-3">
-			<p class="lead">Appointment Services</p>
-			<div class="list-group">
-				<a href="/viewapp" class="list-group-item active">My Appointments</a>
-			</div>
-		</div>
-
-
-		 <div style="margin:0 auto;width:45%">
-            <%
-              var yesterday= new Date();
-              yesterday.setDate(yesterday.getDate()-1); 
-              items.forEach( function ( item ){ 
-              if(yesterday <= item.appDate) { // only handle future appointments for the moment
-            %>
-
-            <div class="col-md-9">
-            		<table class="table table-bordered table-striped">
-                    <tbody style="text-align:left;">
-                      <tr>
-                        <th style="width: 90px;">Appointment Date: </th>
-                    	<td><%= item.appDate %></td>
-                      </tr>
-                      <tr>
-                        <th style="width: 90px;">Patient Name: </th>
-                    	<td><%= item.patient_name %></td>
-                      </tr>
-                      <tr>
-                        <th style="width: 90px;">Reason for visit: </th>
-                    	<td><%= item.reason %></td>
-                      </tr>
-                      <tr>
-                        <th style="width: 90px;">Insurance: </th>
-                    	<td><%= item.insurance %></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Status: </th>
-                    	<td><%= item.status %></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Address: </th>
-                    	<td><%= item.address %></td>
-                      </tr>
-
-                    </tbody>
-                  </table>
-
-				  <form style="text-align:left;" class="appnitro form-horizontal" method="post" action="/modifyApp" >
-				  	<input type="hidden" name="appId" value = <%= item._id %> >
-				    <% if(item.status != "CANCELED") { %>
-	  					<button type="submit" name="command" value="CANCEL" style="float: right;" class="btn btn-primary"> Cancel </button>
-	  				<% };
-	  				if (item.status == "PENDING") { %>
-						<button type="submit" name="command" value="CONFIRM" style="float: right;" class="btn btn-primary"> Confirm </button>
-					<% } %>
-				  </form>
- 
-            		</div>
-            	<% }
-                }); %>
-                     </div>
-                     </div>
+        </div>
+        <% }
+        }); %>
+    </div>
+</div>
 
 
 
-	</div>
+</div>
 
-	<!-- JavaScript -->
-	<script src="/stylesheets/dist/js/jquery-1.10.2.js"></script>
-	<script src="/stylesheets/dist/js/bootstrap.js"></script>
-</body>
-</html>
+
+
+</div>
