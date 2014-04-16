@@ -128,6 +128,7 @@ module.exports = function(app, passport) {
 	    			  if(!data) { 
 	    				  console.log(error);
 	    			  } else {
+	    				  //TODO fill in patient name here.
 	    				  request.doctor_name = data.name;
 						  request.address = data.location.display_address.join();
 						  request.modifiedDate = new Date();
@@ -205,6 +206,30 @@ module.exports = function(app, passport) {
         	 });
         };
     });
+    
+
+	// modify appointment
+	app.post('/modifyApp', isLoggedIn, function(req, res) {
+		// TODO proper access control is needed here.
+		var appId=req.param('appId');
+		var action=req.param('command');
+        PendingReq.findOne({"_id": appId}, function (err, app) {
+        	if(app){
+        		if(action== "CANCEL"){
+        			app.status="CANCELED";
+        		} else if(action=="CONFIRM"){
+        			app.status="CONFIRMED";
+        		}
+            	var today= new Date();
+            	app.modifiedDate=today;
+            	app.save();
+				console.log("Updated appointent " + app);
+        	} else {
+        		console.log("Unable to locate the app with appId="+appId);
+        	}
+        	res.redirect('/viewapp');
+        });
+	});
 
 
 	// show the home page (will also have our login links)

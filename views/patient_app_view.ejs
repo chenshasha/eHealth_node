@@ -30,7 +30,11 @@
          </div>
 
 		 <div style="margin:0 auto;width:80%">
-            <% items.forEach( function ( item ){ %>
+            <%
+              var today= new Date(); 
+              items.forEach( function ( item ){ 
+              if(today <= item.appDate) { // only handle future appointments for the moment
+            %>
 
             <div class="col-md-9">
             		<table class="table table-bordered table-striped">
@@ -62,9 +66,17 @@
 
                     </tbody>
                   </table>
-                  <button class="btn btn-primary" style="float: right;">Cancel</button>
+
+				  <form style="text-align:left;" class="appnitro form-horizontal" method="post" action="/modifyApp" >
+				  	<input type="hidden" name="appId" value = <%= item._id %> >
+				    <% if(item.status != "CANCELED") { %>
+	  					<button type="submit" name="command" value="CANCEL" style="float: right;" class="btn btn-primary"> Cancel </button>
+	  				<% }; %>
+				  </form>
+
             		</div>
-                     <% }); %>
+            	<% }
+                }); %>
                      </div>
                      </div>
 
