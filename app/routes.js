@@ -135,14 +135,17 @@ module.exports = function(app, passport) {
 						  request.insurance = req.param('insurance');
 						  request.reason = req.param('reason');
 						  request.department = req.param('specialty');
+						  var month=parseInt(req.param('element_1_1'));
+						  month--;
 						  request.appDate = new Date(req.param('element_1_3'),
-								  req.param('element_1_1'), req.param('element_1_2'));
+								  month, req.param('element_1_2'));
 						  // also want to fill in the patient name here!!
 						  request.save();
 						  console.log("Created appointent " + request);
 			              res.render('patient_app_view.ejs', {
 			                    items: [request],
-			                    user: req.user
+			                    user: req.user,
+			                    message: "The following appointment request has been submitted."
 			                });
 
 	    			  }
@@ -161,7 +164,7 @@ module.exports = function(app, passport) {
     	var today= new Date();
         if(req.user.local.userType == "patient"){
             res.render('patient_app_request.ejs', {physicians:[],
-            	element_1_1: today.getMonth(),
+            	element_1_1: today.getMonth()+1,
             	element_1_2: today.getDate(),
             	element_1_3: today.getFullYear(),
             	city: "",
@@ -214,19 +217,25 @@ module.exports = function(app, passport) {
 		var appId=req.param('appId');
 		var action=req.param('command');
         PendingReq.findOne({"_id": appId}, function (err, app) {
-        	if(app){
-        		if(action== "CANCEL"){
-        			app.status="CANCELED";
-        		} else if(action=="CONFIRM"){
-        			app.status="CONFIRMED";
-        		}
-            	var today= new Date();
-            	app.modifiedDate=today;
-            	app.save();
-				console.log("Updated appointent " + app);
-        	} else {
-        		console.log("Unable to locate the app with appId="+appId);
-        	}
+			if (app) {
+				if (action == "DELETE") {
+					PendingReq.findByIdAndRemove(appId, function(error){
+						console.log("Deleted appointment "+app);
+					});
+				} else {
+					if (action == "CANCEL") {
+						app.status = "CANCELED";
+					} else if (action == "CONFIRM") {
+						app.status = "CONFIRMED";
+					}
+					var today = new Date();
+					app.modifiedDate = today;
+					app.save();
+					console.log("Updated appointent " + app);
+				}
+			} else {
+				console.log("Unable to locate the app with appId=" + appId);
+			}
         	res.redirect('/viewapp');
         });
 	});

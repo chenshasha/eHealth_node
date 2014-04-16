@@ -28,12 +28,19 @@
 
         <div style="padding:20px">
          </div>
+         
+        <% // show the optional message, if exists
+           if(typeof message != 'undefined'  && message) { %>
+           <p class="lead"> <%= message %> </p>
+           <br>
+         <%} %>
 
 		 <div style="margin:0 auto;width:80%">
             <%
-              var today= new Date(); 
+              var yesterday= new Date();
+              yesterday.setDate(yesterday.getDate()-1); 
               items.forEach( function ( item ){ 
-              if(today <= item.appDate) { // only handle future appointments for the moment
+              if(yesterday <= item.appDate) { // only handle future appointments for the moment
             %>
 
             <div class="col-md-9">
@@ -70,8 +77,13 @@
 				  <form style="text-align:left;" class="appnitro form-horizontal" method="post" action="/modifyApp" >
 				  	<input type="hidden" name="appId" value = <%= item._id %> >
 				    <% if(item.status != "CANCELED") { %>
-	  					<button type="submit" name="command" value="CANCEL" style="float: right;" class="btn btn-primary"> Cancel </button>
-	  				<% }; %>
+	  					 <button type="submit" name="command" value="CANCEL" style="float: right;" class="btn btn-primary"> Cancel </button>
+	  				<% }
+	  				   else {
+	  				%>
+	  				     <button type="submit" name="command" value="DELETE" style="float: right;" class="btn btn-primary"> Delete </button>
+	  				<% }
+	  				%>
 				  </form>
 
             		</div>

@@ -28,9 +28,10 @@
 
 		 <div style="margin:0 auto;width:45%">
             <%
-              var today= new Date(); 
+              var yesterday= new Date();
+              yesterday.setDate(yesterday.getDate()-1); 
               items.forEach( function ( item ){ 
-              if(today <= item.appDate) { // only handle future appointments for the moment
+              if(yesterday <= item.appDate) { // only handle future appointments for the moment
             %>
 
             <div class="col-md-9">
