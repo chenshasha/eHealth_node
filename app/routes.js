@@ -152,7 +152,7 @@ module.exports = function(app, passport) {
 				              res.render('patient_app_view.ejs', {
 				                    items: [request],
 				                    user: req.user,
-				                    message: "The following appointment request has been submitted."
+				                    message: "Your Appointment is Submitted."
 				              });
 
 
@@ -481,6 +481,7 @@ module.exports = function(app, passport) {
 		app.get('/connect/local', function(req, res) {
 			res.render('connect-local.ejs', { message: req.flash('loginMessage') });
 		});
+
 		app.post('/connect/local', passport.authenticate('local-signup', {
 			successRedirect : '/profile', // redirect to the secure profile section
 			failureRedirect : '/connect/local', // redirect back to the signup page if there is an error
