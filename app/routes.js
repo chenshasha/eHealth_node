@@ -6,9 +6,19 @@ var Post          = require('../app/models/post');
 var Reply         = require('../app/models/reply');
 var Yelp 		  = require('../app/yelp/yelpApi');
 var mongoose      = require('mongoose');
+var Log			  = require('../app/models/log');
+var User		  = require('../app/models/user');
+var nodemailer 	  = require('nodemailer');
+var randomstring  = require('randomstring');
 
-
-
+// create reusable transport method (opens pool of SMTP connections)
+var smtpTransport = nodemailer.createTransport("SMTP",{
+    service: "Gmail",
+    auth: {
+        user: "eHealth.node@gmail.com",
+        pass: "CMPE295B"
+    }
+});
 
 module.exports = function(app, passport) {
 
@@ -428,6 +438,94 @@ module.exports = function(app, passport) {
             });
         }
 
+    });
+
+
+    // Forgot password
+    app.get('/forgotpassword', function(req, res) {
+    	res.render('forgot_password.ejs', { message: req.flash('forgotpwdMsg') });
+    });
+
+    app.post('/forgotpassword', function(req, res) {
+
+        User.findOne({'local.email' : req.param('email')}, function(err, user) {
+            // if there are any errors, return the error
+            if (err)
+                return done(err);
+
+            if (!user){
+                // if no user is found, return the message
+                console.log(req.param('email')+" Not found!");
+                req.flash('forgotpwdMsg', 'That email is not existing.');
+                res.redirect('/forgotpassword');
+
+            } else {
+                console.log(req.param('email')+" Found!");
+
+                //Send an email with temporary password
+                var tmp_pwd = randomstring.generate(8); // Generate a 8-char string randomly
+                smtpTransport.sendMail({
+                    from: "eHealth Admin <eHealth.node@gmail.com>", // sender address
+                    to: req.param('email'), // comma separated list of receivers
+                    subject: "eHealth System Reset password", // Subject line
+                    text: "Hi Dear User, \n\nAs per your request, we have reset your password.\nThe temporary password is " + tmp_pwd + "\nPlease use it to log into our system and change your password.\nThank you for your support.\n\nSincerely,\neHealth Admin"// plaintext body
+
+                }, function(error, response){
+                    if(error){
+                        console.log(error);
+                    }else{
+                        console.log("Email sent: " + response.message);
+
+                        //save temporary password into database
+                        user.local.password = user.generateHash(tmp_pwd);
+                        user.save();
+
+                        //Save the activity into logs
+                        var log = new Log();
+                        log.user_id = user.id;
+                        log.content = "The user has reset the password.";
+                        log.module_name = "Reset Password";
+                        log.postDate = new Date();
+                        log.save();
+                        console.log("A new log has been saved into database.");
+                        res.redirect('/login');
+                    }
+                });
+            }
+        });
+    });
+
+    // Change password
+    app.get('/changepassword', function(req, res) {
+        res.render('change_password.ejs', { message: req.flash('changepwdMsg') });
+    });
+
+    app.post('/changepassword', isLoggedIn, function(req, res) {
+        if (req.param('password') != req.param('password2')){
+
+            console.log("Two passwords are not same!");
+            req.flash('changepwdMsg', 'Two passwords are not same.');
+            res.redirect('/changepassword');
+
+        } else {
+
+            console.log("Two passwords are same!");
+
+            //save new password into database
+            req.user.local.password = req.user.generateHash(req.param('password'));
+            req.user.save();
+
+            //Save the activity into logs
+            var log = new Log();
+            log.user_id = req.user.id;
+            log.content = "The user has changed the password.";
+            log.module_name = "Change Password";
+            log.postDate = new Date();
+            log.save();
+            console.log("A new log has been saved into database.");
+
+            res.redirect('/profile');
+        }
     });
 
 
