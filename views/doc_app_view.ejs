@@ -1,4 +1,5 @@
 <%- include header %>
+<title>Appointment | Doctor | View</title>
 <div style="padding:30px">
 </div>
 <div class="container">
@@ -28,6 +29,12 @@
                     <th style="width: 90px;">Patient Name: </th>
                     <td><%= item.patient_name %></td>
                 </tr>
+                <% if(item.broker_name){ %>
+                      <tr>
+                        <th style="width: 90px;">Agent Name: </th>
+                    	<td><%= item.broker_name %></td>
+                      </tr>
+                <% } %>
                 <tr>
                     <th style="width: 90px;">Reason for visit: </th>
                     <td><%= item.reason %></td>

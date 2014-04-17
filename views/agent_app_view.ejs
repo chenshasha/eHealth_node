@@ -1,4 +1,5 @@
 <%- include header %>
+<title>Appointment | Agent | View</title>
 <div style="padding:30px">
 </div>
 
@@ -27,12 +28,18 @@
                 </tr>
                 <tr>
                     <th style="width: 90px;">Patient Name: </th>
-                    <td><%= item.patient_name %> (<%= item.patient_id %>)</td>
+                    <td><%= item.patient_name %></td>
                 </tr>
                 <tr>
                     <th style="width: 90px;">Doctor Name: </th>
                     <td><%= item.doctor_name %></td>
                 </tr>
+                <% if(item.broker_name){ %>
+                      <tr>
+                        <th style="width: 90px;">Agent Name: </th>
+                    	<td><%= item.broker_name %></td>
+                      </tr>
+                <% } %>
                 <tr>
                     <th style="width: 90px;">Reason for visit: </th>
                     <td><%= item.reason %></td>
