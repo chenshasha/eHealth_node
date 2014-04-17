@@ -18,6 +18,98 @@
 
         }
         </style>
+
+    <script language="JavaScript" type="text/javascript" >
+
+      	document.addEventListener("DOMContentLoaded", function() {
+
+        // JavaScript form validation
+        var checkPassword = function(str)
+        {
+          var re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+          return re.test(str);
+        };
+
+        var checkForm = function(e)
+        {
+          if(this.email.value == "") {
+            alert("Error: Email cannot be blank!");
+            this.username.focus();
+            e.preventDefault(); // equivalent to return false
+            return;
+          }
+
+          var re = /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i;
+
+          if(!re.test(this.email.value)) {
+            alert("Error: Email is not valid!");
+            this.email.focus();
+            e.preventDefault();
+            return;
+          }
+
+          if(this.password.value != "" && this.password.value == this.password2.value) {
+            if(!checkPassword(this.password.value)) {
+              alert("Password must contain at least 6 characters, including UPPER/lowercase and numbers.");
+              this.password.focus();
+              e.preventDefault();
+              return;
+            }
+          } else {
+            alert("Error: Please check that you've entered and confirmed your password!");
+            this.password.focus();
+            e.preventDefault();
+            return;
+          }
+        };
+
+        var myForm = document.getElementById("myForm");
+        myForm.addEventListener("submit", checkForm, true);
+
+        // HTML5 form validation
+        var supports_input_validity = function()
+        {
+          var i = document.createElement("input");
+          return "setCustomValidity" in i;
+        }
+
+        if(supports_input_validity()) {
+          var emailInput = document.getElementById("field_email");
+          var emailRule = "This email is not valid.";
+          emailInput.setCustomValidity(emailRule);
+
+          var pwd1Input = document.getElementById("field_pwd1");
+          var pwd1Rule = "Password must contain at least 6 characters, including UPPER/lowercase and numbers.";
+          pwd1Input.setCustomValidity(pwd1Rule);
+
+          var pwd2Input = document.getElementById("field_pwd2");
+          var pwd2Rule = "Please enter the same Password as above.";
+
+          // input onchange event handlers
+          emailInput.addEventListener("change", function() {
+            emailInput.setCustomValidity(this.validity.patternMismatch ? emailRule : "");
+          }, false);
+
+          pwd1Input.addEventListener("change", function() {
+            this.setCustomValidity(this.validity.patternMismatch ? pwd1Rule : "");
+            if(this.checkValidity()) {
+              pwd2Input.pattern = this.value;
+              pwd2Input.setCustomValidity(pwd2Rule);
+            } else {
+              pwd2Input.pattern = this.pattern;
+              pwd2Input.setCustomValidity("");
+            }
+          }, false);
+
+          pwd2Input.addEventListener("change", function() {
+            this.setCustomValidity(this.validity.patternMismatch ? pwd2Rule : "");
+          }, false);
+
+        }
+
+      }, false);
+
+    </script>
 </head>
 <body>
 <div style="position:relative; left: 120px;">
@@ -33,15 +125,19 @@
 	<% } %>
 
 	<!-- LOGIN FORM -->
-	<form action="/signup" method="post">
+	<form id="myForm" action="/signup" method="post">
 		<div class="form-group">
 			<label>Email</label>
-			<input type="email" class="form-control" name="email">
+			<input id="field_email" type="email" class="form-control" name="email">
 		</div>
 		<div class="form-group">
 			<label>Password</label>
-			<input type="password" class="form-control" name="password">
+			<input id="field_pwd1" type="password" class="form-control" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" name="password">
 		</div>
+		<div class="form-group">
+        	<label>Confirm Password</label>
+        	<input id="field_pwd2" type="password" class="form-control" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" name="password2" >
+        </div>
 		<div class="form-group">
         	<label>User Type</label>
         	<select class="selectpicker" name="userType" required>
