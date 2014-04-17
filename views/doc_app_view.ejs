@@ -51,7 +51,7 @@
             <form style="text-align:left;" class="appnitro form-horizontal" method="post" action="/modifyApp" >
                 <input type="hidden" name="appId" value = <%= item._id %> >
                 <% if(item.status != "CANCELED") { %>
-                <button type="submit" name="command" value="CANCEL" class="btn btn-primary"> Cancel </button>
+                <button type="submit" name="command" value="CANCEL" class="btn btn-danger"> Cancel </button>
                 <% };
                         if (item.status == "PENDING") { %>
                 <button type="submit" name="command" value="CONFIRM" class="btn btn-primary"> Confirm </button>
