@@ -65,7 +65,7 @@ var categories= [
 			<form style="text-align:left;" method="post" action="/app_request">
 
 				<ul>
-                    <li id="li_1"><h4 for="element_1">Date
+                    <li id="li_1"><h4 for="element_1">Date and Time
 					</h4> <span> <input id="element_1_1" name="element_1_1"
 							class="form-control" size="2" maxlength="2" type="text" value=<%= element_1_1 %>>
 							 <h6 for="element_1_1">MM</h6>
@@ -76,8 +76,13 @@ var categories= [
 							class="form-control" size="4" maxlength="4" value=<%= element_1_3 %> type="text">
 							<h6 for="element_1_3">YYYY</h6>
 					</span> <span id="calendar_1"> <img id="cal_img_1"
-							class="datepicker" src="includes/form/calendar.gif" alt="Pick a date.">
-					</span> <script type="text/javascript">
+							class="datepicker" src="stylesheets/form/calendar.gif" width="60" height="60" alt="Pick a date.">
+					</span> <span> <input type="time" name="time" min="06:00:00" max="20:00:00" value="<%= time %>" step="900"
+							class="form-control" size="3" maxlength="4" required = "required" >
+							<h6 for="time">hh:mm</h6>
+					</span>
+					
+					<script type="text/javascript">
 						Calendar.setup({
 							inputField : "element_1_3",
 							baseField : "element_1",
@@ -189,5 +194,4 @@ var categories= [
 	</div>
 
 	<!-- JavaScript -->
-	<script src="/stylesheets/dist/js/jquery-1.10.2.js"></script>
 	<script src="/stylesheets/dist/js/bootstrap.js"></script>

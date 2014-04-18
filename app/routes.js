@@ -140,6 +140,7 @@ module.exports = function(app, passport) {
     		            	element_1_1: req.param('element_1_1'),
     		            	element_1_2: req.param('element_1_2'),
     		            	element_1_3: req.param('element_1_3'),
+    		            	time: req.param('time'),
     		            	city: city,
     		            	keywords: keywords,
     		            	specialty: specialty,
@@ -171,10 +172,13 @@ module.exports = function(app, passport) {
 							  request.insurance = req.param('insurance');
 							  request.reason = req.param('reason');
 							  request.department = req.param('specialty');
-							  var month=parseInt(req.param('element_1_1'));
-							  month--;
-							  request.appDate = new Date(req.param('element_1_3'),
-									  month, req.param('element_1_2'));
+							  // Date format: "yyyy-mm-dd hh:mm:ss"
+							  var dateStr=""+req.param('element_1_3')
+							  	+"-"+req.param('element_1_1')
+							  	+"-"+req.param('element_1_2')
+							  	+ " "+req.param('time');
+							  console.log("Date string is "+dateStr);
+							  request.appDate = new Date(dateStr);
 							  request.save();
 							  console.log("Created appointent " + request);
 
@@ -208,12 +212,14 @@ module.exports = function(app, passport) {
 
     // patient request appointment, doctor respond to request
     app.get('/app', isLoggedIn, function(req, res) {
-    	var today= new Date();
+    	var tomorrow= new Date(new Date().getTime() + 24 * 3600 * 1000);;
+    	
         if(req.user.local.userType == "patient"){
             res.render('patient_app_request.ejs', {physicians:[],
-            	element_1_1: today.getMonth()+1,
-            	element_1_2: today.getDate(),
-            	element_1_3: today.getFullYear(),
+            	element_1_1: tomorrow.getMonth()+1,
+            	element_1_2: tomorrow.getDate(),
+            	element_1_3: tomorrow.getFullYear(),
+            	time: "08:00:00",
             	city: "",
             	keywords: "",
             	specialty:"",
