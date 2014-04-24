@@ -290,7 +290,7 @@ module.exports = function(app, passport) {
 			if (app) {
 				if (action == "DELETE") {
 					PendingReq.findByIdAndRemove(appId, function(error){
-						console.log("Deleted appointment "+app);
+						//console.log("Deleted appointment "+app);
 
 //				        //Save the activity into logs
 //                        var log = new Log();
@@ -302,6 +302,7 @@ module.exports = function(app, passport) {
 //                        console.log("A new log has been saved into database.");
 
 					});
+                    res.redirect('/viewapp');
 				} else {
 					if (action == "CANCEL") {
 						app.status = "CANCELED";
@@ -318,7 +319,7 @@ module.exports = function(app, passport) {
 								return done(err+"\n Cannot locate the agent");
   	    				  	app.broker_name=agent.firstName+" "+agent.lastName;
 							app.save(callback);
-							console.log("Updated appointent " + app);
+							//console.log("Updated appointent " + app);
 
 //					        //Save the activity into logs
 //                            var log = new Log();
@@ -331,7 +332,7 @@ module.exports = function(app, passport) {
 		                });
 					} else {
 						app.save(callback);
-						console.log("Updated appointent " + app);
+						//console.log("Updated appointent " + app);
 
 //			            //Save the activity into logs
 //                        var log = new Log();
